@@ -2,7 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.Keys; // generalno za CI
 
 /**
  * SearchPage predstavlja funkcionalnost globalne pretrage oglasa na sajtu.
@@ -33,10 +33,27 @@ public class SearchPage extends BasePage {
     /**
      * Unosim termin pretrage i pokrećem pretragu pritiskom na ENTER.
      */
+
+    // ukinuto zbog CI dopune ispod
     public void search(String term) {
-        driver.findElement(searchInput).clear();
-        driver.findElement(searchInput).sendKeys(term);
-        driver.findElement(searchInput).sendKeys(Keys.ENTER);
+//        driver.findElement(searchInput).clear();
+//        driver.findElement(searchInput).sendKeys(term);
+//        driver.findElement(searchInput).sendKeys(Keys.ENTER);
+//    }
+
+    // CI dopuna
+    var input = driver.findElement(searchInput);
+
+    // klik da input dobije fokus (u CI/headless je ovo bitno)
+    input.click();
+
+    // umesto clear() (koji zna da pukne u CI), radim Ctrl+A + Delete
+    input.sendKeys(Keys.CONTROL + "a");
+    input.sendKeys(Keys.DELETE);
+
+    // unos termina i potvrda
+    input.sendKeys(term);
+    input.sendKeys(Keys.ENTER);
     }
 
     /**

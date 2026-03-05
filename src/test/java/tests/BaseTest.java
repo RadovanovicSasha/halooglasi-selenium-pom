@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import utils.DriverFactory; // za CI
+import pages.CookiesBannerPage; // za CI
 // import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
@@ -31,6 +32,9 @@ public class BaseTest {
 
         driver.manage().window().maximize();
         driver.get(baseUrl);
+
+        // Ako se pojavi cookies banner, zatvaram ga da ne blokira elemente (posebno u CI)
+        new CookiesBannerPage(driver).acceptCookiesIfPresent();
     }
 
 /**
