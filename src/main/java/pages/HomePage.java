@@ -41,10 +41,15 @@ public class HomePage extends BasePage {
      * Proveravam da li je polje za pretragu vidljivo.
      * Ovo koristim kao osnovnu validaciju da se Home stranica uspešno učitala.
      */
+    // ukinuto zbog CI (sledeća metoda ispod):
+//    public boolean isSearchVisible() {
+//        return isVisible(searchInput, 10);
+//    }
+    // dodato zbog CI:
     public boolean isSearchVisible() {
-        return isVisible(searchInput, 10);
+        int timeout = "true".equalsIgnoreCase(System.getenv("CI")) ? 20 : 10;
+        return isVisible(searchInput, timeout);
     }
-
     /**
      * Proveravam da li je korisnik ulogovan.
      * Ako je element "Moj profil" vidljiv u headeru, smatram da je login uspešan.

@@ -3,8 +3,11 @@ package tests;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
+
 import utils.DriverFactory; // za CI
 import pages.CookiesBannerPage; // za CI
+
+import java.time.Duration;
 // import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
