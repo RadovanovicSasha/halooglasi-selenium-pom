@@ -3,18 +3,14 @@ name: Selenium Tests
 on:
   push:
     branches: [ main ]
-schedule:
+  schedule:
   - cron: '0 8 * * *'   # Daily scheduled CI run at 09:00 CET (Serbia)
 jobs:
   test:
-
     runs-on: ubuntu-latest
-
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
