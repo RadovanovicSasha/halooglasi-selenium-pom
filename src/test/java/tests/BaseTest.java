@@ -3,7 +3,8 @@ package tests;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import utils.DriverFactory; // za CI
+// import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
  * BaseTest je osnovna klasa za sve testove u projektu.
@@ -25,7 +26,8 @@ public class BaseTest {
     @BeforeEach
     public void setUp() {
 
-        driver = new ChromeDriver();
+        driver = DriverFactory.createChromeDriver(); // za CI
+        // driver = new ChromeDriver();
 
         driver.manage().window().maximize();
         driver.get(baseUrl);
