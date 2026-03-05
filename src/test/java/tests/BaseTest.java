@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions; // za CI
 
 /**
  * BaseTest je osnovna klasa za sve testove u projektu.
@@ -25,14 +24,6 @@ public class BaseTest {
 */
     @BeforeEach
     public void setUp() {
-
-        ChromeOptions options = new ChromeOptions(); // objekat klase ChromeOptions za CI
-
-        // DOPUNA ZA GITHUB ACTIONS
-        options.addArguments("--headless=new");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--window-size=1920,1080");
 
         driver = new ChromeDriver();
 
