@@ -1,8 +1,8 @@
 package tests;
 import pages.HomePage;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
-import utils.TestData;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,22 +17,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Očekivano:
  * Korisnik je uspešno ulogovan i u headeru je vidljivo "Moj profil".
  */
+@Tag("regression")
 public class SuccessfulLoginTest extends BaseTest {
 
     @Test
     public void TC004_successfulLogin_redirectsToProfile() {
 
         // Otvaram login stranicu
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.open();
+        LoginSteps loginSteps = new LoginSteps(driver);
+        LoginPage loginPage = loginSteps.openLoginPage();
 
         // Proveravam da li je login forma vidljiva pre unosa kredencijala
         assertTrue(loginPage.isLoginFormVisible(),
                 "Login forma nije vidljiva (email/pass/dugme).");
 
         // Unosim validne kredencijale i pokrećem login
-        loginPage.login(TestData.VALID_EMAIL, TestData.VALID_PASSWORD);
-
+        loginSteps.submitValidCredentials(loginPage);
 
         // Proveravam da li je korisnik uspešno ulogovan
         HomePage homePage = new HomePage(driver);

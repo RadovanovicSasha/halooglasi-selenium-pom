@@ -22,13 +22,10 @@ public class BasePage {
 
     // WebDriver instanca koju nasleđuju sve Page klase
     protected WebDriver driver;
-    // Osnovni WebDriverWait koji koristim za čekanje elemenata
-    protected WebDriverWait wait;
 
     public BasePage(WebDriver driver) {
-        // Prosleđujem driver iz test klase i inicijalizujem wait
+        // Prosleđujem driver iz test klase
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     /**
@@ -57,6 +54,17 @@ public class BasePage {
     protected void clickWhenClickable(By locator, int seconds) {
         WebElement el = new WebDriverWait(driver, Duration.ofSeconds(seconds))
                 .until(ExpectedConditions.elementToBeClickable(locator));
+        el.click();
+    }
+
+    /**
+     * Isto kao clickWhenClickable(By, int), ali za slučaj kada je element već
+     * pronađen unutar određenog konteksta (npr. konkretna kartica rezultata)
+     * i ne želim ponovo da ga tražim po celoj stranici.
+     */
+    protected void clickWhenClickable(WebElement element, int seconds) {
+        WebElement el = new WebDriverWait(driver, Duration.ofSeconds(seconds))
+                .until(ExpectedConditions.elementToBeClickable(element));
         el.click();
     }
 

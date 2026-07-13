@@ -1,5 +1,6 @@
 package tests;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
 import pages.ProfilePage;
@@ -20,15 +21,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Očekivano:
  * Korisnik je vraćen na login stranicu i forma za prijavu je vidljiva.
  */
+@Tag("e2e")
 public class LogoutTest extends BaseTest {
 
     @Test
     public void TC007_logout_userLoggedOut() {
 
         // Otvaram login stranicu i vršim prijavu korisnika
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.open();
-        loginPage.login(utils.TestData.VALID_EMAIL, utils.TestData.VALID_PASSWORD);
+        LoginSteps loginSteps = new LoginSteps(driver);
+        LoginPage loginPage = loginSteps.openLoginPage();
+        loginSteps.submitValidCredentials(loginPage);
 
         // Otvaram profil stranicu korisnika
         ProfilePage profilePage = new ProfilePage(driver);

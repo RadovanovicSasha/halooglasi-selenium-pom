@@ -1,6 +1,8 @@
 package pages;
 
+import config.FrameworkConfig;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -13,7 +15,7 @@ import org.openqa.selenium.WebDriver;
 public class ProfilePage extends BasePage {
 
     // URL stranice korisničkog profila
-    private final String profileUrl = "https://www.halooglasi.com/profil";
+    private final String profileUrl = FrameworkConfig.BASE_URL + "profil";
     // Naslov "Moj profil" koji koristim kao indikator da je stranica uspešno učitana
     private final By profileHeader =
             By.cssSelector("a[data-url='/profil/moji-oglasi']");
@@ -57,14 +59,14 @@ public class ProfilePage extends BasePage {
         // pokušavam da otvorim korisnički meni
         try {
             hover(userMenuToggle, 5);
-        } catch (Exception e) {
+        } catch (TimeoutException e) {
             hover(profileHeader, 5);
         }
 
         // klik na logout opciju
         try {
             clickWhenClickable(logoutLink, 10);
-        } catch (Exception e) {
+        } catch (TimeoutException e) {
             jsClick(logoutLink, 10);
         }
     }

@@ -1,9 +1,10 @@
 package tests;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
 import pages.SearchPage;
-import utils.TestData;
+import testdata.TestData;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,20 +23,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Očekivano:
  * Prikazuju se rezultati pretrage za uneti pojam.
  */
+@Tag("regression")
 public class SearchTest extends BaseTest {
 
     @Test
     public void TC006_search_returnsResults() {
 
         // Otvaram login stranicu
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.open();
+        LoginSteps loginSteps = new LoginSteps(driver);
+        LoginPage loginPage = loginSteps.openLoginPage();
 
         // Proveravam da li je login forma učitana
         assertTrue(loginPage.isLoginFormVisible(), "Login forma nije vidljiva.");
 
         // Vršim login sa validnim kredencijalima
-        loginPage.login(TestData.VALID_EMAIL, TestData.VALID_PASSWORD);
+        loginSteps.submitValidCredentials(loginPage);
 
         // Otvaram stranicu sa globalnom pretragom
         SearchPage searchPage = new SearchPage(driver);

@@ -1,5 +1,6 @@
 package utils;
 
+import config.FrameworkConfig;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -9,9 +10,7 @@ public class DriverFactory {
     public static WebDriver createChromeDriver() {
         ChromeOptions options = new ChromeOptions();
 
-        boolean isCI = "true".equalsIgnoreCase(System.getenv("CI"));
-
-        if (isCI) {
+        if (FrameworkConfig.isCi()) {
             options.addArguments("--headless=new");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");

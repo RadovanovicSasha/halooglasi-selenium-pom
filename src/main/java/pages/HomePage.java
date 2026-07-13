@@ -1,12 +1,8 @@
 package pages;
 
+import config.FrameworkConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 /**
  * HomePage predstavlja početnu stranicu sajta HaloOglasi.
@@ -17,8 +13,6 @@ import java.time.Duration;
  */
 public class HomePage extends BasePage {
 
-    // Osnovni URL početne stranice
-    private final String baseUrl = "https://www.halooglasi.com/";
     // Polje za globalnu pretragu oglasa
     private final By searchInput =
             By.cssSelector("input[type='search'], input[name='query'], input[placeholder*='Pretraga']");
@@ -34,33 +28,25 @@ public class HomePage extends BasePage {
      * Ovu metodu koristim na početku testova koji zahtevaju pristup Home stranici.
      */
     public void open() {
-        driver.get(baseUrl);
+        driver.get(FrameworkConfig.BASE_URL);
     }
 
     /**
      * Proveravam da li je polje za pretragu vidljivo.
      * Ovo koristim kao osnovnu validaciju da se Home stranica uspešno učitala.
+     * Timeout je duži u CI okruženju zbog sporijeg učitavanja stranice.
      */
-    // ukinuto zbog CI (sledeća metoda ispod):
-//    public boolean isSearchVisible() {
-//        return isVisible(searchInput, 10);
-//    }
-    // dodato zbog CI:
     public boolean isSearchVisible() {
-        int timeout = "true".equalsIgnoreCase(System.getenv("CI")) ? 20 : 10;
+        int timeout = FrameworkConfig.isCi() ? 20 : 10;
         return isVisible(searchInput, timeout);
     }
     /**
      * Proveravam da li je korisnik ulogovan.
      * Ako je element "Moj profil" vidljiv u headeru, smatram da je login uspešan.
+     * Koristim postojeći isVisible helper iz BasePage umesto sopstvenog
+     * WebDriverWait-a (ranije je ovde bila duplirana wait logika).
      */
     public boolean isUserLoggedIn() {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(mojProfilLink));
-            return true;
-        } catch (TimeoutException e) {
-            return false;
-        }
+        return isVisible(mojProfilLink, 10);
     }
 }

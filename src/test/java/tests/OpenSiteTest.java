@@ -1,5 +1,6 @@
 package tests;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.HomePage;
 
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Očekivano:
  * Početna stranica se učitava i vidljivo je polje za pretragu u headeru.
  */
+@Tag("smoke")
 public class OpenSiteTest extends BaseTest {
 
     @Test

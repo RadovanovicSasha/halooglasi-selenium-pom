@@ -1,5 +1,6 @@
 package pages;
 
+import config.FrameworkConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.Keys; // generalno za CI
@@ -12,8 +13,6 @@ import org.openqa.selenium.Keys; // generalno za CI
  */
 public class SearchPage extends BasePage {
 
-    // Osnovni URL sajta (početna stranica sa pretragom)
-    private final String baseUrl = "https://www.halooglasi.com/";
     // Polje za unos pojma pretrage
     private final By searchInput = By.cssSelector("input[name='query'], input[placeholder*='Šta tražite'], input[type='search']");
     // Prvi rezultat pretrage koji koristim kao indikator da postoje rezultati
@@ -27,33 +26,24 @@ public class SearchPage extends BasePage {
      * Otvaram početnu stranicu sajta kako bih mogao da koristim globalnu pretragu.
      */
     public void open() {
-        driver.get(baseUrl);
+        driver.get(FrameworkConfig.BASE_URL);
     }
 
     /**
      * Unosim termin pretrage i pokrećem pretragu pritiskom na ENTER.
+     * Umesto clear() (koji zna da pukne u CI), radim Ctrl+A + Delete.
      */
-
-    // ukinuto zbog CI dopune ispod
     public void search(String term) {
-//        driver.findElement(searchInput).clear();
-//        driver.findElement(searchInput).sendKeys(term);
-//        driver.findElement(searchInput).sendKeys(Keys.ENTER);
-//    }
+        var input = driver.findElement(searchInput);
 
-    // CI dopuna
-    var input = driver.findElement(searchInput);
+        // klik da input dobije fokus (u CI/headless je ovo bitno)
+        input.click();
 
-    // klik da input dobije fokus (u CI/headless je ovo bitno)
-    input.click();
+        input.sendKeys(Keys.CONTROL + "a");
+        input.sendKeys(Keys.DELETE);
 
-    // umesto clear() (koji zna da pukne u CI), radim Ctrl+A + Delete
-    input.sendKeys(Keys.CONTROL + "a");
-    input.sendKeys(Keys.DELETE);
-
-    // unos termina i potvrda
-    input.sendKeys(term);
-    input.sendKeys(Keys.ENTER);
+        input.sendKeys(term);
+        input.sendKeys(Keys.ENTER);
     }
 
     /**

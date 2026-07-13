@@ -1,5 +1,6 @@
 package tests;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
 
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Login forma je prikazana i vidljiva su polja za e-mail,
  * lozinku i dugme za prijavu.
  */
+@Tag("smoke")
 public class OpenLoginPageTest extends BaseTest {
 
     @Test

@@ -1,0 +1,17 @@
+# Local credentials - never commit
+src/test/resources/testdata-local.properties
+
+# Build output
+target/
+
+# Local failure evidence - never commit
+screenshots/
+
+# IDE
+.idea/
+
+# Claude Code local settings
+.claude/
+
+# Logs
+*.log

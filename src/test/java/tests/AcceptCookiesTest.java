@@ -1,5 +1,6 @@
 package tests;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.CookiesBannerPage;
 import pages.HomePage;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
  * Očekivano:
  * Cookie banner nestaje i više ne blokira elemente na stranici.
  */
+@Tag("smoke")
 public class AcceptCookiesTest extends BaseTest {
 
     @Test
