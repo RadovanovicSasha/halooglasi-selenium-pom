@@ -13,7 +13,7 @@ This project demonstrates a from-scratch Selenium automation framework following
 - Deliberately non-destructive automation against a real, live website (see [Project Limitations](#project-limitations-live-website) below)
 - Reliable CI execution (headless Chrome, CI-aware waits, failure diagnostics)
 
-The suite covers 9 test cases (`TC001`–`TC009`) spanning smoke checks, regression coverage, and a full end-to-end browsing flow.
+The suite covers 12 test cases (`TC001`–`TC012`) spanning smoke checks, regression coverage (including negative/authorization scenarios), and full end-to-end browsing flows.
 
 ---
 
@@ -79,7 +79,10 @@ src
     │   │   ├── SearchTest.java                     (TC006, regression)
     │   │   ├── LogoutTest.java                     (TC007, e2e)
     │   │   ├── AdDetailsTest.java                  (TC008, regression)
-    │   │   └── BrowseListingEndToEndTest.java      (TC009, e2e)
+    │   │   ├── BrowseListingEndToEndTest.java      (TC009, e2e)
+    │   │   ├── FailedLoginTest.java                 (TC010, regression)
+    │   │   ├── ProfileAccessRequiresLoginTest.java  (TC011, regression)
+    │   │   └── SearchNoResultsTest.java             (TC012, regression)
     │   ├── testdata
     │   │   └── TestData.java               # Loads local credentials + shared test constants
     │   └── utils
@@ -152,8 +155,14 @@ mvn test -Dgroups=e2e
 | Tag | Test cases | Count |
 |---|---|---|
 | `smoke` | TC001 Open site, TC002 Accept cookies, TC003 Open login page | 3 |
-| `regression` | TC004 Successful login, TC005 Profile page, TC006 Search, TC008 Ad details | 4 |
+| `regression` | TC004 Successful login, TC005 Profile page, TC006 Search, TC008 Ad details, TC010 Failed login, TC011 Profile access without login, TC012 Search with no results | 7 |
 | `e2e` | TC007 Logout, TC009 Browse-to-details end-to-end flow | 2 |
+
+Negative and boundary coverage was added deliberately, on top of the original happy-path suite:
+
+- **TC010** – login with invalid, non-existent credentials is rejected (user stays logged out, login form remains visible). Uses a fake email/password rather than the real test account, so repeated runs can't trigger a lockout or extra bot scrutiny on the real credentials.
+- **TC011** – requesting `/profil` without logging in first does not open the profile page. Unlike the other regression/e2e cases, this test needs no credentials at all, so it's the one test in this tag that can also run where `testdata-local.properties` isn't provisioned (e.g. CI today).
+- **TC012** – searching for a term that cannot match any real listing returns no results, as the boundary counterpart to TC006.
 
 ---
 
@@ -186,13 +195,14 @@ This suite runs against the real, live `halooglasi.com` production site rather t
 - **No brittle content assertions.** Tests verify structural elements (e.g., that a price and category breadcrumb are visible) rather than specific text, since real inventory changes constantly.
 - **Interstitials are handled defensively.** Cookie banners and security notification modals are dismissed if present, since their appearance can vary between runs and environments.
 - **Real credentials, safely scoped.** Login tests require a real account; credentials are supplied per-environment (see [Credential Handling](#credential-handling)) and never committed.
-- **CI credential provisioning is a known gap.** The GitHub Actions workflow currently runs `mvn clean test` without injecting `testdata-local.properties`, so login-dependent test cases (TC004–TC009, i.e. most of the `regression` and `e2e` tags) fail in CI today. Provisioning credentials via GitHub Actions secrets is listed under Future Improvements.
+- **CI credential provisioning is a known gap.** The GitHub Actions workflow currently runs `mvn clean test` without injecting `testdata-local.properties`, so login-dependent test cases (TC004–TC009, TC010, TC012 - i.e. most of the `regression` and `e2e` tags) fail in CI today. TC011 is the exception: it needs no login, so it's unaffected by this gap. Provisioning credentials via GitHub Actions secrets is listed under Future Improvements.
+- **Cloudflare bot-verification can intercept any run.** The site is fronted by Cloudflare, which occasionally serves a "Verify you are human" challenge page to automated ChromeDriver sessions instead of the real page. When that happens, every test in the run fails identically (missing search box, missing login form, etc.) regardless of what the test itself checks - this is an anti-bot/environment condition external to the framework, not a test or page-object defect. It's not tied to a specific test case, so no single TC is called out for it here.
 
 ---
 
 ## Future Improvements
 
-- Provision `testdata-local.properties` in CI from GitHub Actions secrets so login-dependent tests (TC004–TC009) run in the pipeline, not just locally
+- Provision `testdata-local.properties` in CI from GitHub Actions secrets so login-dependent tests (TC004–TC009, TC010, TC012) run in the pipeline, not just locally
 - Cross-browser execution (Firefox/Edge) via `DriverFactory`
 - Parallel test execution
 - Test reporting integration (e.g. Allure)
