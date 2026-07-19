@@ -71,18 +71,21 @@ src
     │   │   ├── BaseTest.java                    # Driver lifecycle, common setup/teardown
     │   │   ├── ScreenshotOnFailureExtension.java
     │   │   ├── LoginSteps.java                  # Reusable login step helper
-    │   │   ├── OpenSiteTest.java                 (TC001, smoke)
-    │   │   ├── AcceptCookiesTest.java             (TC002, smoke)
-    │   │   ├── OpenLoginPageTest.java             (TC003, smoke)
-    │   │   ├── SuccessfulLoginTest.java           (TC004, regression)
-    │   │   ├── ProfilePageTest.java                (TC005, regression)
-    │   │   ├── SearchTest.java                     (TC006, regression)
-    │   │   ├── LogoutTest.java                     (TC007, e2e)
-    │   │   ├── AdDetailsTest.java                  (TC008, regression)
-    │   │   ├── BrowseListingEndToEndTest.java      (TC009, e2e)
-    │   │   ├── FailedLoginTest.java                 (TC010, regression)
-    │   │   ├── ProfileAccessRequiresLoginTest.java  (TC011, regression)
-    │   │   └── SearchNoResultsTest.java             (TC012, regression)
+    │   │   ├── smoke
+    │   │   │   ├── OpenSiteTest.java             (TC001, smoke)
+    │   │   │   ├── AcceptCookiesTest.java        (TC002, smoke)
+    │   │   │   └── OpenLoginPageTest.java        (TC003, smoke)
+    │   │   ├── regression
+    │   │   │   ├── SuccessfulLoginTest.java              (TC004, regression)
+    │   │   │   ├── ProfilePageTest.java                  (TC005, regression)
+    │   │   │   ├── SearchTest.java                       (TC006, regression)
+    │   │   │   ├── AdDetailsTest.java                    (TC008, regression)
+    │   │   │   ├── FailedLoginTest.java                  (TC010, regression)
+    │   │   │   ├── ProfileAccessRequiresLoginTest.java   (TC011, regression)
+    │   │   │   └── SearchNoResultsTest.java              (TC012, regression)
+    │   │   └── e2e
+    │   │       ├── LogoutTest.java                       (TC007, e2e)
+    │   │       └── BrowseListingEndToEndTest.java        (TC009, e2e)
     │   ├── testdata
     │   │   └── TestData.java               # Loads local credentials + shared test constants
     │   └── utils
@@ -94,6 +97,8 @@ src
 pom.xml
 README.md
 ```
+
+The `tests.smoke` / `tests.regression` / `tests.e2e` sub-packages exist **purely for readability and logical grouping** - they make it obvious at a glance where a test case belongs. They have no effect on how tests are selected or executed: `BaseTest`, `LoginSteps`, and `ScreenshotOnFailureExtension` stay in the `tests` root package since they're shared across all three, and every test class is still discovered and filtered exclusively through its JUnit 5 `@Tag` annotation and Maven's `-Dgroups` flag (see [Maven Commands](#maven-commands) below). There are no suite classes in this project - grouping by tag, not by a runner class, is the only execution model in use.
 
 ---
 

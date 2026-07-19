@@ -1,10 +1,12 @@
-package tests;
+package tests.regression;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
 import pages.SearchPage;
 import testdata.TestData;
+import tests.BaseTest;
+import tests.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

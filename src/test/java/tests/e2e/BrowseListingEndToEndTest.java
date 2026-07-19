@@ -1,4 +1,4 @@
-package tests;
+package tests.e2e;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -7,6 +7,8 @@ import pages.LoginPage;
 import pages.SearchPage;
 import pages.SearchResultsPage;
 import testdata.TestData;
+import tests.BaseTest;
+import tests.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
