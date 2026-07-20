@@ -4,6 +4,14 @@ A UI test automation framework for [halooglasi.com](https://www.halooglasi.com/)
 
 ---
 
+## Notes
+
+This framework automates a public third-party website (`halooglasi.com`).
+
+Because the target website is protected by Cloudflare and other anti-bot mechanisms, GitHub-hosted CI runners may occasionally be blocked before the application becomes reachable.
+
+In such cases, failed CI executions represent an external infrastructure limitation rather than a defect in the Selenium framework or the implemented test suite. Local execution remains the primary validation method.
+
 ## Project Overview
 
 This project demonstrates a from-scratch Selenium automation framework following the **Page Object Model (POM)** pattern, with a strong emphasis on:
