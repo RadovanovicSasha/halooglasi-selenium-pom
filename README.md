@@ -99,6 +99,7 @@ src
     │   └── utils
     │       └── DriverFactory.java          # Chrome driver setup (headless in CI)
     └── resources
+        ├── junit-platform.properties       # Parallel execution config (opt-in, disabled by default)
         ├── testdata-local.example.properties
         └── testdata-local.properties       # gitignored, created locally per-developer
 
@@ -163,6 +164,8 @@ mvn test -Dgroups=regression
 mvn test -Dgroups=e2e
 ```
 
+Both flags are plain Maven/JUnit Platform system properties — no `pom.xml` edits are needed to switch between them.
+
 ### Current Test Distribution
 
 | Tag | Test cases | Count |
@@ -176,6 +179,24 @@ Negative and boundary coverage was added deliberately, on top of the original ha
 - **TC010** – login with invalid, non-existent credentials is rejected (user stays logged out, login form remains visible). Uses a fake email/password rather than the real test account, so repeated runs can't trigger a lockout or extra bot scrutiny on the real credentials.
 - **TC011** – requesting `/profil` without logging in first does not open the profile page. Unlike the other regression/e2e cases, this test needs no credentials at all, so it's the one test in this tag that can also run where `testdata-local.properties` isn't provisioned (e.g. CI today).
 - **TC012** – searching for a term that cannot match any real listing returns no results, as the boundary counterpart to TC006.
+
+---
+
+## Parallel Execution
+
+Test execution is single-threaded by default (`mvn test`), which keeps runs deterministic against the shared live test account used by `regression`/`e2e` tests. Parallel execution is available as an opt-in switch, not a separate profile or a `pom.xml` edit:
+
+```bash
+mvn test -Dgroups=smoke -Djunit.jupiter.execution.parallel.enabled=true
+```
+
+This is controlled by `src/test/resources/junit-platform.properties`, which ships with `junit.jupiter.execution.parallel.enabled=false`. JUnit 5 resolves configuration parameters from system properties before the properties file, so the `-D` flag above overrides the default for that run only. A fixed pool of 2 threads (`config.strategy=fixed`) is used rather than one thread per CPU core, to keep the number of concurrent Chrome sessions against the live site predictable both locally and in CI.
+
+**Why no `ThreadLocal`/`DriverManager` was needed:** `BaseTest.driver` is already an instance field, and JUnit 5 creates a fresh test instance per test method by default (no test class here overrides `@TestInstance(Lifecycle.PER_CLASS)`). That means each parallel thread already gets its own `BaseTest` instance and therefore its own `driver` — there is no field shared across threads to race on. `FrameworkConfig`, `TestData`, and `DriverFactory` only expose immutable constants or stateless static methods, so they're safe to read concurrently without synchronization. Verified by running the `smoke` tag with parallelism enabled and confirming two Chrome sessions start and quit independently on separate worker threads with no cross-test interference.
+
+**Where care is still needed:** `regression` and `e2e` tests log into the same real Halo Oglasi account (`TestData.haloEmail`/`haloPass`). Running those tags in parallel means multiple browser sessions authenticate concurrently against one live account, which can surface as intermittent login/session flakiness on the site itself — not a defect in the framework's thread-safety. The `smoke` tag (TC001–TC003) does not perform a real login and is the safest candidate for parallel execution today.
+
+CI (`.github/workflows/selenium-tests.yml`) intentionally runs `mvn clean test` sequentially — the default — to avoid compounding the shared-account and Cloudflare considerations above with concurrency on a shared runner.
 
 ---
 
@@ -217,7 +238,7 @@ This suite runs against the real, live `halooglasi.com` production site rather t
 
 - Provision `testdata-local.properties` in CI from GitHub Actions secrets so login-dependent tests (TC004–TC009, TC010, TC012) run in the pipeline, not just locally
 - Cross-browser execution (Firefox/Edge) via `DriverFactory`
-- Parallel test execution
+- A dedicated test account per parallel worker, to remove the shared-account caveat noted in [Parallel Execution](#parallel-execution) and allow `regression`/`e2e` to run concurrently
 - Test reporting integration (e.g. Allure)
 
 ---
