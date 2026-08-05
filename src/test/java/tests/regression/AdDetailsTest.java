@@ -7,12 +7,10 @@ import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import framework.pages.AdDetailsPage;
-import framework.pages.LoginPage;
 import framework.pages.SearchPage;
 import framework.pages.SearchResultsPage;
 import tests.testdata.TestData;
 import tests.base.BaseTest;
-import tests.steps.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * TC008 - View ad details.
  *
  * Precondition:
- * User is logged in.
+ * None - browsing search results and ad details is public functionality
+ * and requires no login.
  *
  * Steps:
  * 1. Search for ads
@@ -34,22 +33,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * Doesn't assert specific content (title/price/advertiser) since site
  * inventory changes constantly - only checks that structural elements are visible.
- *
- * Authenticates against the live test account.
  */
 @Severity(SeverityLevel.NORMAL)
 @Feature("Ad Details")
 @Story("View ad details")
 @Tag("regression")
-@Tag("login")
 public class AdDetailsTest extends BaseTest {
 
     @Test
     public void TC008_viewAdvertisementDetails_showsStructuralInfo() {
-
-        LoginSteps loginSteps = new LoginSteps(driver);
-        LoginPage loginPage = loginSteps.openLoginPage();
-        loginSteps.submitValidCredentials(loginPage);
 
         SearchPage searchPage = new SearchPage(driver);
         searchPage.open();

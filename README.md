@@ -203,9 +203,9 @@ mvn test -Dgroups=login -Dbrowser=firefox -Denv=prod
 | `smoke` | TC001 Open site, TC002 Accept cookies, TC003 Open login page | 3 |
 | `regression` | TC004 Successful login, TC005 Profile page, TC006 Search, TC008 Ad details, TC010 Failed login, TC011 Profile access without login, TC012 Search with no results | 7 |
 | `e2e` | TC007 Logout, TC009 Browse-to-details end-to-end flow | 2 |
-| `login` (orthogonal to the above) | TC004, TC005, TC006, TC008, TC010, TC007, TC009 - every test that authenticates against the live account | 7 |
+| `login` (orthogonal to the above) | TC004, TC005, TC007, TC009, TC010 - every test that authenticates against the live account | 5 |
 
-`TC010` (`FailedLoginTest`) is `login`-tagged despite using fabricated credentials, not the real account - it still submits to the live login endpoint, which is the behavior being scoped out of routine CI. `TC011` (`ProfileAccessRequiresLoginTest`) is the only regression case that is never `login`-tagged: it deliberately opens `/profil` without authenticating, to verify the application itself rejects unauthenticated access.
+`TC010` (`FailedLoginTest`) is `login`-tagged despite using fabricated credentials, not the real account - it still submits to the live login endpoint, which is the behavior being scoped out of routine CI. `TC006`, `TC008`, and `TC012` (search and ad-details) are deliberately **not** `login`-tagged: search and ad browsing are public functionality on the site, and the login step originally present in those tests was incidental setup, not a real precondition - removed so they run automatically on every push. `TC011` (`ProfileAccessRequiresLoginTest`) is likewise never `login`-tagged: it deliberately opens `/profil` without authenticating, to verify the application itself rejects unauthenticated access.
 
 Negative and boundary coverage was added deliberately, on top of the original happy-path suite:
 
