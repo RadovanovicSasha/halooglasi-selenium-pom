@@ -1,17 +1,21 @@
-package testdata;
+package tests.testdata;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Test-specific data: shared constants and locally-configured credentials
+ * for the live Halo Oglasi account used by login-dependent tests.
+ */
 public class TestData {
 
     private static final String LOCAL_CONFIG_FILE = "testdata-local.properties";
 
-    // termin za search test
+    // Search term used by search-related test cases.
     public static final String SEARCH_TERM = "stan";
 
-    // kredencijali za login (čitaju se iz src/test/resources/testdata-local.properties)
+    // Login credentials, read from src/test/resources/testdata-local.properties.
     public static final String haloEmail;
     public static final String haloPass;
 

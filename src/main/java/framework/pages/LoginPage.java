@@ -1,27 +1,20 @@
-package pages;
+package framework.pages;
 
-import config.FrameworkConfig;
+import framework.config.EnvConfig;
+import framework.pages.components.HeaderComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pages.components.HeaderComponent;
 
 /**
- * LoginPage predstavlja stranicu za autentikaciju korisnika.
- *
- * Ovde sam definisao elemente login forme i metode koje koristim
- * za proveru da li je forma učitana i za unos kredencijala.
+ * Represents the user authentication page.
  */
 public class LoginPage extends BasePage {
 
-    // URL login stranice
-    private final String loginUrl = FrameworkConfig.BASE_URL + "prijava";
-    // Polje za unos e-mail adrese ili korisničkog imena
+    private final String loginUrl = EnvConfig.BASE_URL + "prijava";
     private final By emailInput =
             By.xpath("//label[contains(text(),'E-mail') or contains(text(),'korisničko ime')]/following::input[1]");
-    // Polje za unos lozinke
     private final By passwordInput =
             By.xpath("//label[contains(text(),'Lozinka')]/following::input[1]");
-    // Dugme za prijavu na sistem
     private final By loginButton =
             By.xpath("//button[contains(.,'Uloguj me')]");
 
@@ -29,17 +22,13 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    /**
-     * Otvaram login stranicu aplikacije.
-     */
     public void open() {
         driver.get(loginUrl);
     }
 
     /**
-     * Proveravam da li je login forma vidljiva.
-     * Ako su polja za e-mail, lozinku i login dugme prisutni,
-     * smatram da je stranica uspešno učitana.
+     * Checks whether the login form is visible - the email, password, and
+     * login button fields are all present.
      */
     public boolean isLoginFormVisible() {
         return isVisible(emailInput, 10)
@@ -48,18 +37,16 @@ public class LoginPage extends BasePage {
     }
 
     /**
-     * Unosim kredencijale i pokrećem login akciju.
+     * Enters credentials and submits the login form.
      *
-     * Cookie banner se rešava centralno u BaseTest.setUp() (CookiesBannerPage),
-     * pa ovde više nema dupliranog handling-a za njega.
+     * The cookie banner is handled centrally in BaseTest.setUp()
+     * (CookiesBannerPage), so there's no duplicated handling here.
      */
     public void login(String user, String pass) {
-
         driver.findElement(emailInput).sendKeys(user);
         driver.findElement(passwordInput).sendKeys(pass);
-        // stabilniji klik
         clickWhenClickable(loginButton, 5);
-        // čekam da se pojavi user meni u headeru (login je uspeo)
+        // Wait for the header user menu to appear, confirming login succeeded.
         new HeaderComponent(driver).isUserLoggedIn();
     }
 }

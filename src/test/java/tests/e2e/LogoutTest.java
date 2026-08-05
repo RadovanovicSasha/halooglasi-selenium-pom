@@ -2,26 +2,28 @@ package tests.e2e;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.LoginPage;
-import pages.ProfilePage;
-import tests.BaseTest;
-import tests.LoginSteps;
+import framework.pages.LoginPage;
+import framework.pages.ProfilePage;
+import tests.base.BaseTest;
+import tests.base.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TC007 – Uspešan logout korisnika.
+ * TC007 - Successful user logout.
  *
- * Preuslov: korisnik ima validan nalog.
+ * Precondition: user has a valid account.
  *
- * Koraci:
- * 1. Otvoriti login stranicu
- * 2. Uneti validne kredencijale
- * 3. Otvoriti korisnički meni
- * 4. Kliknuti na "Izloguj se"
+ * Steps:
+ * 1. Open the login page
+ * 2. Enter valid credentials
+ * 3. Open the user menu
+ * 4. Click "Izloguj se"
  *
- * Očekivano:
- * Korisnik je vraćen na login stranicu i forma za prijavu je vidljiva.
+ * Expected:
+ * The user is returned to the login page and the login form is visible.
+ *
+ * Authenticates against the live test account.
  */
 @Tag("e2e")
 public class LogoutTest extends BaseTest {
@@ -29,20 +31,16 @@ public class LogoutTest extends BaseTest {
     @Test
     public void TC007_logout_userLoggedOut() {
 
-        // Otvaram login stranicu i vršim prijavu korisnika
         LoginSteps loginSteps = new LoginSteps(driver);
         LoginPage loginPage = loginSteps.openLoginPage();
         loginSteps.submitValidCredentials(loginPage);
 
-        // Otvaram profil stranicu korisnika
         ProfilePage profilePage = new ProfilePage(driver);
         profilePage.open();
 
-        // Izvršavam logout akciju
         profilePage.logoutSession();
 
-        // Proveravam da li je korisnik vraćen na login stranicu
         assertTrue(loginPage.isLoginFormVisible(),
-                "Logout nije uspeo – login forma nije vidljiva.");
+                "Logout did not succeed - login form is not visible.");
     }
 }

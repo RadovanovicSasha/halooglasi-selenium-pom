@@ -2,28 +2,26 @@ package tests.regression;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.ProfilePage;
-import tests.BaseTest;
+import framework.pages.ProfilePage;
+import tests.base.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
- * TC011 – Pristup profil stranici bez prethodne prijave.
+ * TC011 - Profile page access without a prior login.
  *
- * Preduslov:
- * Korisnik NIJE ulogovan (test namerno ne koristi LoginSteps).
+ * Precondition:
+ * User is NOT logged in (this test deliberately does not use LoginSteps).
  *
- * Koraci:
- * 1. Direktno otvoriti URL profil stranice (/profil) bez prijave
+ * Steps:
+ * 1. Open the profile page URL (/profil) directly, without logging in
  *
- * Očekivano:
- * Sadržaj profil stranice se ne prikazuje neulogovanom korisniku -
- * proveravam stvarno autorizaciono ponašanje aplikacije, ne samo da
- * element postoji na stranici.
+ * Expected:
+ * Profile content is not shown to an unauthenticated user - verifies actual
+ * application authorization behavior, not just that an element exists on the page.
  *
- * Test ne zahteva kredencijale iz TestData, pa može da se izvrši i u
- * okruženjima bez podešenog testdata-local.properties (npr. CI bez
- * provizionisanih secreta - videti README, Project Limitations).
+ * Requires no credentials and never touches the login endpoint, so it's
+ * safe to run automatically on every push.
  */
 @Tag("regression")
 public class ProfileAccessRequiresLoginTest extends BaseTest {
@@ -31,12 +29,10 @@ public class ProfileAccessRequiresLoginTest extends BaseTest {
     @Test
     public void TC011_profileAccessWithoutLogin_profileNotOpened() {
 
-        // Direktno otvaram profil stranicu bez prethodne prijave
         ProfilePage profilePage = new ProfilePage(driver);
         profilePage.open();
 
-        // Proveravam da profil stranica NIJE otvorena neulogovanom korisniku
         assertFalse(profilePage.isProfilePageOpened(),
-                "Profil stranica je otvorena bez prijave korisnika.");
+                "Profile page opened without the user being logged in.");
     }
 }

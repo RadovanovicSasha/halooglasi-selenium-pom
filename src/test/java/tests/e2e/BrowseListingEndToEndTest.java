@@ -2,36 +2,38 @@ package tests.e2e;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.AdDetailsPage;
-import pages.LoginPage;
-import pages.SearchPage;
-import pages.SearchResultsPage;
-import testdata.TestData;
-import tests.BaseTest;
-import tests.LoginSteps;
+import framework.pages.AdDetailsPage;
+import framework.pages.LoginPage;
+import framework.pages.SearchPage;
+import framework.pages.SearchResultsPage;
+import tests.testdata.TestData;
+import tests.base.BaseTest;
+import tests.base.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TC009 – Bezbedan end-to-end flow: pretraga → izbor oglasa → pregled detalja.
+ * TC009 - Non-destructive end-to-end flow: search -> select -> view details.
  *
- * Preuslov:
- * Korisnik je ulogovan u sistem.
+ * Precondition:
+ * User is logged in.
  *
- * Koraci:
- * 1. Pretražiti oglase
- * 2. Izabrati prvi rezultat pretrage
- * 3. Otvoriti stranicu detalja oglasa
+ * Steps:
+ * 1. Search for ads
+ * 2. Select the first search result
+ * 3. Open the ad details page
  *
- * Očekivano:
- * Ceo lanac koraka (pretraga -> izbor -> pregled) uspešno završava na
- * stranici detalja oglasa.
+ * Expected:
+ * The full chain of steps (search -> select -> view) completes successfully
+ * on the ad details page.
  *
- * Flow se NAMERNO zaustavlja na pregledu informacija - test ne kontaktira
- * oglašivača, ne šalje poruku, ne otkriva/klika broj telefona, ne dodaje
- * oglas u izabrane, ne kreira porudžbinu i ne vrši nikakvu kupovinu, uplatu
- * ili trajnu promenu naloga. AdDetailsPage namerno ne izlaže nijednu takvu
- * akciju (vidi AdDetailsPage - nema lokatora za te elemente).
+ * The flow DELIBERATELY stops at viewing information - the test does not
+ * contact the seller, send a message, reveal/click a phone number, add the
+ * ad to favorites, create an order, or perform any purchase, payment, or
+ * permanent account change. AdDetailsPage deliberately exposes no locators
+ * for any such action (see AdDetailsPage).
+ *
+ * Authenticates against the live test account.
  */
 @Tag("e2e")
 public class BrowseListingEndToEndTest extends BaseTest {
@@ -39,24 +41,22 @@ public class BrowseListingEndToEndTest extends BaseTest {
     @Test
     public void TC009_searchSelectViewDetails_nonDestructiveBrowseFlow() {
 
-        // Prijavljujem se validnim kredencijalima
         LoginSteps loginSteps = new LoginSteps(driver);
         LoginPage loginPage = loginSteps.openLoginPage();
         loginSteps.submitValidCredentials(loginPage);
 
-        // Pretražujem oglase
         SearchPage searchPage = new SearchPage(driver);
         searchPage.open();
         searchPage.search(TestData.SEARCH_TERM);
 
         SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         assertTrue(searchResultsPage.hasAtLeastOneResult(),
-                "Pretraga nije vratila nijedan rezultat.");
+                "Search did not return any results.");
 
-        // Biram oglas i otvaram njegovu stranicu detalja - flow se ovde zaustavlja
+        // Selecting an ad opens its details page - the flow stops here.
         AdDetailsPage adDetailsPage = searchResultsPage.openFirstResult();
 
         assertTrue(adDetailsPage.isDetailsPageOpened(),
-                "Flow pretraga->izbor->pregled detalja nije uspeo - stranica detalja oglasa nije otvorena.");
+                "Search->select->view flow failed - ad details page did not open.");
     }
 }

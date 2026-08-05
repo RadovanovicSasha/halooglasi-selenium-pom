@@ -2,20 +2,21 @@ package tests.smoke;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.LoginPage;
-import tests.BaseTest;
+import framework.pages.LoginPage;
+import tests.base.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TC003 – Otvaranje login stranice.
+ * TC003 - Open the login page.
  *
- * Koraci:
- * 1. Otvoriti login stranicu aplikacije
+ * Steps:
+ * 1. Open the application's login page
  *
- * Očekivano:
- * Login forma je prikazana i vidljiva su polja za e-mail,
- * lozinku i dugme za prijavu.
+ * Expected:
+ * The login form is displayed, with email, password, and login button fields visible.
+ *
+ * Does not submit credentials - see the login-tagged tests for authenticated flows.
  */
 @Tag("smoke")
 public class OpenLoginPageTest extends BaseTest {
@@ -23,12 +24,10 @@ public class OpenLoginPageTest extends BaseTest {
     @Test
     public void TC003_openLoginPage_loginFormVisible() {
 
-        // Otvaram login stranicu
         LoginPage loginPage = new LoginPage(driver);
         loginPage.open();
 
-        // Proveravam da li je login forma vidljiva
         assertTrue(loginPage.isLoginFormVisible(),
-                "Login forma nije prikazana (email/lozinka/dugme).");
+                "Login form is not displayed (email/password/button).");
     }
 }

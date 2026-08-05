@@ -1,24 +1,26 @@
 package tests.regression;
 
-import pages.HomePage;
+import framework.pages.HomePage;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.LoginPage;
-import tests.BaseTest;
-import tests.LoginSteps;
+import framework.pages.LoginPage;
+import tests.base.BaseTest;
+import tests.base.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TC004 – Uspešan login validnim kredencijalima.
+ * TC004 - Successful login with valid credentials.
  *
- * Koraci:
- * 1. Otvoriti login stranicu
- * 2. Uneti validne kredencijale
- * 3. Kliknuti na dugme za prijavu
+ * Steps:
+ * 1. Open the login page
+ * 2. Enter valid credentials
+ * 3. Click the login button
  *
- * Očekivano:
- * Korisnik je uspešno ulogovan i u headeru je vidljivo "Moj profil".
+ * Expected:
+ * The user is successfully logged in and "Moj profil" is visible in the header.
+ *
+ * Authenticates against the live test account.
  */
 @Tag("regression")
 public class SuccessfulLoginTest extends BaseTest {
@@ -26,20 +28,16 @@ public class SuccessfulLoginTest extends BaseTest {
     @Test
     public void TC004_successfulLogin_redirectsToProfile() {
 
-        // Otvaram login stranicu
         LoginSteps loginSteps = new LoginSteps(driver);
         LoginPage loginPage = loginSteps.openLoginPage();
 
-        // Proveravam da li je login forma vidljiva pre unosa kredencijala
         assertTrue(loginPage.isLoginFormVisible(),
-                "Login forma nije vidljiva (email/pass/dugme).");
+                "Login form is not visible (email/password/button).");
 
-        // Unosim validne kredencijale i pokrećem login
         loginSteps.submitValidCredentials(loginPage);
 
-        // Proveravam da li je korisnik uspešno ulogovan
         HomePage homePage = new HomePage(driver);
         assertTrue(homePage.isUserLoggedIn(),
-                "Korisnik nije uspešno ulogovan.");
+                "User was not successfully logged in.");
     }
 }

@@ -1,4 +1,4 @@
-package pages;
+package framework.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -10,18 +10,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 /**
- * Predstavlja bezbednosno obaveštenje (Bootstrap modal) koje se ponekad
- * pojavljuje nakon otvaranja sajta, odvojeno od cookie bannera.
+ * Represents a security notification (Bootstrap modal) that occasionally
+ * appears after the site loads, separate from the cookie banner.
  *
- * Ovaj modal može da blokira interakciju sa poljima na stranici (npr.
- * login formom), pa ga proveravam i zatvaram klikom na dugme za potvrdu
- * pre nego što nastavim sa testom.
+ * This modal can block interaction with page fields (e.g. the login form),
+ * so it's checked and dismissed before the test proceeds.
  */
 public class SecurityNotificationModal extends BasePage {
 
-    // Dugme za potvrdu bezbednosnog obaveštenja (jedinstvena klasa u DOM-u)
     private final By confirmBtn = By.cssSelector(".system-notification-confirm");
-    // Bootstrap backdrop koji prekriva stranicu dok je modal otvoren
+    // Bootstrap backdrop covering the page while the modal is open.
     private final By backdrop = By.cssSelector(".modal-backdrop");
 
     public SecurityNotificationModal(WebDriver driver) {
@@ -29,21 +27,21 @@ public class SecurityNotificationModal extends BasePage {
     }
 
     /**
-     * Brza provera (bez čekanja) da li je dugme za potvrdu trenutno u DOM-u.
-     * Koristim findElements umesto findElement da izbegnem exception kada
-     * modal nije prikazan.
+     * Quick check (no waiting) for whether the confirm button is currently
+     * in the DOM. Uses findElements instead of findElement to avoid an
+     * exception when the modal isn't shown.
      */
     public boolean isPresent() {
         return !driver.findElements(confirmBtn).isEmpty();
     }
 
     /**
-     * Ako je bezbednosno obaveštenje prisutno, zatvaram ga klikom na dugme
-     * za potvrdu i čekam da modal i backdrop nestanu sa stranice.
+     * If the security notification is present, dismisses it by clicking the
+     * confirm button and waits for the modal and backdrop to disappear.
      *
-     * Ako dugme ne postane klikabilno u zadatom vremenu, nastavljam bez
-     * greške (TimeoutException ovde samo znači da dugme nije postalo
-     * klikabilno u tom roku, ne dokazuje da modal nikada nije postojao).
+     * If the button doesn't become clickable in time, proceeds without
+     * error (a TimeoutException here only means the button didn't become
+     * clickable in that window, not that the modal never existed).
      */
     public void dismissIfPresent() {
         WebElement confirmButton;

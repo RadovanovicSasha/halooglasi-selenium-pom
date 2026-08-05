@@ -2,28 +2,30 @@ package tests.regression;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.LoginPage;
-import pages.SearchPage;
-import testdata.TestData;
-import tests.BaseTest;
-import tests.LoginSteps;
+import framework.pages.LoginPage;
+import framework.pages.SearchPage;
+import tests.testdata.TestData;
+import tests.base.BaseTest;
+import tests.base.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TC006 – Provera globalne pretrage oglasa.
+ * TC006 - Global ad search.
  *
- * Preuslov:
- * Korisnik je ulogovan u sistem.
+ * Precondition:
+ * User is logged in.
  *
- * Koraci:
- * 1. Otvoriti login stranicu
- * 2. Uneti validne kredencijale
- * 3. Ulogovati se u sistem
- * 4. Uneti termin pretrage u search polje
+ * Steps:
+ * 1. Open the login page
+ * 2. Enter valid credentials
+ * 3. Log in
+ * 4. Enter a search term into the search field
  *
- * Očekivano:
- * Prikazuju se rezultati pretrage za uneti pojam.
+ * Expected:
+ * Search results are shown for the entered term.
+ *
+ * Authenticates against the live test account.
  */
 @Tag("regression")
 public class SearchTest extends BaseTest {
@@ -31,24 +33,18 @@ public class SearchTest extends BaseTest {
     @Test
     public void TC006_search_returnsResults() {
 
-        // Otvaram login stranicu
         LoginSteps loginSteps = new LoginSteps(driver);
         LoginPage loginPage = loginSteps.openLoginPage();
 
-        // Proveravam da li je login forma učitana
-        assertTrue(loginPage.isLoginFormVisible(), "Login forma nije vidljiva.");
+        assertTrue(loginPage.isLoginFormVisible(), "Login form is not visible.");
 
-        // Vršim login sa validnim kredencijalima
         loginSteps.submitValidCredentials(loginPage);
 
-        // Otvaram stranicu sa globalnom pretragom
         SearchPage searchPage = new SearchPage(driver);
         searchPage.open();
 
-        // Pokrećem pretragu za zadati termin
         searchPage.search(TestData.SEARCH_TERM);
 
-        // Proveravam da li su rezultati pretrage prikazani
-        assertTrue(searchPage.hasResults(), "Pretraga nije vratila rezultate.");
+        assertTrue(searchPage.hasResults(), "Search did not return any results.");
     }
 }

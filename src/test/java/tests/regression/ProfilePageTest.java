@@ -2,26 +2,28 @@ package tests.regression;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.LoginPage;
-import pages.ProfilePage;
-import tests.BaseTest;
-import tests.LoginSteps;
+import framework.pages.LoginPage;
+import framework.pages.ProfilePage;
+import tests.base.BaseTest;
+import tests.base.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TC005 – Provera da se profil stranica uspešno učitava nakon logovanja.
+ * TC005 - Profile page loads successfully after login.
  *
- * Preuslov:
- * Korisnik ima validne kredencijale.
+ * Precondition:
+ * Valid credentials.
  *
- * Koraci:
- * 1. Otvoriti login stranicu
- * 2. Uneti validne kredencijale i prijaviti se
- * 3. Otvoriti profil stranicu
+ * Steps:
+ * 1. Open the login page
+ * 2. Enter valid credentials and log in
+ * 3. Open the profile page
  *
- * Očekivano:
- * Stranica profila je učitana i vidljiv je naslov "Moj profil".
+ * Expected:
+ * The profile page loads and the "Moj profil" heading is visible.
+ *
+ * Authenticates against the live test account.
  */
 @Tag("regression")
 public class ProfilePageTest extends BaseTest {
@@ -29,23 +31,18 @@ public class ProfilePageTest extends BaseTest {
     @Test
     public void TC005_profilePage_headerVisible() {
 
-        // Otvaram login stranicu
         LoginSteps loginSteps = new LoginSteps(driver);
         LoginPage loginPage = loginSteps.openLoginPage();
 
-        // Proveravam da li je login forma učitana
         assertTrue(loginPage.isLoginFormVisible(),
-                "Login forma nije vidljiva (email/pass/dugme).");
+                "Login form is not visible (email/password/button).");
 
-        // Unosim validne kredencijale i vršim login
         loginSteps.submitValidCredentials(loginPage);
 
-        // Otvaram profil stranicu korisnika
         ProfilePage profilePage = new ProfilePage(driver);
         profilePage.open();
 
-        // Proveravam da li je profil stranica uspešno učitana
         assertTrue(profilePage.isProfilePageOpened(),
-                "Profil stranica nije otvorena.");
+                "Profile page did not open.");
     }
 }

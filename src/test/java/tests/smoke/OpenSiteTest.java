@@ -2,19 +2,19 @@ package tests.smoke;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.HomePage;
-import tests.BaseTest;
+import framework.pages.HomePage;
+import tests.base.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TC001 – Otvaranje početne stranice sajta.
+ * TC001 - Open the site's home page.
  *
- * Koraci:
- * 1. Otvoriti početnu stranicu aplikacije
+ * Steps:
+ * 1. Open the application's home page
  *
- * Očekivano:
- * Početna stranica se učitava i vidljivo je polje za pretragu u headeru.
+ * Expected:
+ * The home page loads and the header search field is visible.
  */
 @Tag("smoke")
 public class OpenSiteTest extends BaseTest {
@@ -22,13 +22,9 @@ public class OpenSiteTest extends BaseTest {
     @Test
     public void TC001_openSite_headerSearchVisible() {
 
-        // Kreiram instancu HomePage
         HomePage homePage = new HomePage(driver);
-
-        // Otvaram početnu stranicu sajta
         homePage.open();
 
-        // Proveravam da li je polje za pretragu vidljivo u headeru
-        assertTrue(homePage.isSearchVisible(), "Search input nije vidljiv na home strani.");
+        assertTrue(homePage.isSearchVisible(), "Search input is not visible on the home page.");
     }
 }

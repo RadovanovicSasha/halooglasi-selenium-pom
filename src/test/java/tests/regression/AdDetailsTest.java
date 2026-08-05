@@ -2,34 +2,36 @@ package tests.regression;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.AdDetailsPage;
-import pages.LoginPage;
-import pages.SearchPage;
-import pages.SearchResultsPage;
-import testdata.TestData;
-import tests.BaseTest;
-import tests.LoginSteps;
+import framework.pages.AdDetailsPage;
+import framework.pages.LoginPage;
+import framework.pages.SearchPage;
+import framework.pages.SearchResultsPage;
+import tests.testdata.TestData;
+import tests.base.BaseTest;
+import tests.base.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TC008 – Pregled detalja oglasa.
+ * TC008 - View ad details.
  *
- * Preuslov:
- * Korisnik je ulogovan u sistem.
+ * Precondition:
+ * User is logged in.
  *
- * Koraci:
- * 1. Pretražiti oglase
- * 2. Izabrati prvi rezultat pretrage
- * 3. Proveriti da je stranica detalja oglasa otvorena i da su strukturni
- *    elementi (cena, kategorija) vidljivi
+ * Steps:
+ * 1. Search for ads
+ * 2. Select the first search result
+ * 3. Verify the ad details page is open and structural elements (price,
+ *    category) are visible
  *
- * Očekivano:
- * Stranica detalja oglasa je otvorena, cena i kategorija su vidljivi.
- * Test se zaustavlja na pregledu - bez kontakta, poruke, favorita ili kupovine.
+ * Expected:
+ * The ad details page opens, with price and category visible.
+ * The test stops at viewing - no contact, message, favorites, or purchase.
  *
- * Ne asertujem konkretan sadržaj (naslov/cenu/oglašivača) jer se inventar
- * na sajtu stalno menja - proveravam samo da su strukturni elementi vidljivi.
+ * Doesn't assert specific content (title/price/advertiser) since site
+ * inventory changes constantly - only checks that structural elements are visible.
+ *
+ * Authenticates against the live test account.
  */
 @Tag("regression")
 public class AdDetailsTest extends BaseTest {
@@ -37,30 +39,25 @@ public class AdDetailsTest extends BaseTest {
     @Test
     public void TC008_viewAdvertisementDetails_showsStructuralInfo() {
 
-        // Prijavljujem se validnim kredencijalima
         LoginSteps loginSteps = new LoginSteps(driver);
         LoginPage loginPage = loginSteps.openLoginPage();
         loginSteps.submitValidCredentials(loginPage);
 
-        // Pretražujem oglase
         SearchPage searchPage = new SearchPage(driver);
         searchPage.open();
         searchPage.search(TestData.SEARCH_TERM);
 
-        // Proveravam da pretraga ima bar jedan rezultat pre izbora
         SearchResultsPage searchResultsPage = new SearchResultsPage(driver);
         assertTrue(searchResultsPage.hasAtLeastOneResult(),
-                "Pretraga nije vratila nijedan rezultat za selekciju.");
+                "Search did not return any results to select from.");
 
-        // Biram prvi rezultat i otvaram stranicu detalja oglasa
         AdDetailsPage adDetailsPage = searchResultsPage.openFirstResult();
 
-        // Proveravam strukturne elemente stranice detalja oglasa
         assertTrue(adDetailsPage.isDetailsPageOpened(),
-                "Stranica sa detaljima oglasa nije otvorena.");
+                "Ad details page did not open.");
         assertTrue(adDetailsPage.isPriceVisible(),
-                "Cena nije vidljiva na stranici oglasa.");
+                "Price is not visible on the ad details page.");
         assertTrue(adDetailsPage.isCategoryBreadcrumbVisible(),
-                "Kategorija (breadcrumb) nije vidljiva na stranici oglasa.");
+                "Category breadcrumb is not visible on the ad details page.");
     }
 }

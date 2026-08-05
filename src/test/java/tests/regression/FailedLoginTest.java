@@ -2,30 +2,30 @@ package tests.regression;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.HomePage;
-import pages.LoginPage;
-import tests.BaseTest;
+import framework.pages.HomePage;
+import framework.pages.LoginPage;
+import tests.base.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TC010 – Neuspešan login sa nevažećim kredencijalima.
+ * TC010 - Failed login with invalid credentials.
  *
- * Koraci:
- * 1. Otvoriti login stranicu
- * 2. Uneti nepostojeći e-mail i pogrešnu lozinku
- * 3. Kliknuti na dugme za prijavu
+ * Steps:
+ * 1. Open the login page
+ * 2. Enter a non-existent email and wrong password
+ * 3. Click the login button
  *
- * Očekivano:
- * Korisnik NIJE ulogovan (indikator "Moj profil" nije vidljiv u headeru) i
- * login forma je i dalje vidljiva - aplikacija ne dozvoljava pristup nalogu
- * sa nevažećim kredencijalima. Negativni scenario koji dopunjuje TC004
- * (uspešan login).
+ * Expected:
+ * The user is NOT logged in ("Moj profil" indicator is not visible in the
+ * header) and the login form remains visible - the application doesn't
+ * grant account access on invalid credentials. Negative counterpart to TC004.
  *
- * Koristim izmišljene kredencijale, a ne pravi test nalog iz TestData, kako
- * ponovljeni neuspešni pokušaji ne bi rizikovali zaključavanje ili anti-bot
- * reakciju na pravi nalog.
+ * Uses fabricated credentials rather than the real test account, so that
+ * repeated failed attempts can't risk a lockout or extra anti-bot scrutiny
+ * on the real account. Still submits to the live login endpoint, though,
+ * so it's excluded from routine CI along with the other login flows.
  */
 @Tag("regression")
 public class FailedLoginTest extends BaseTest {
@@ -33,24 +33,19 @@ public class FailedLoginTest extends BaseTest {
     @Test
     public void TC010_failedLogin_invalidCredentials_userNotLoggedIn() {
 
-        // Otvaram login stranicu
         LoginPage loginPage = new LoginPage(driver);
         loginPage.open();
 
-        // Proveravam da je login forma vidljiva pre unosa kredencijala
         assertTrue(loginPage.isLoginFormVisible(),
-                "Login forma nije vidljiva (email/pass/dugme).");
+                "Login form is not visible (email/password/button).");
 
-        // Unosim nevažeće, izmišljene kredencijale
         loginPage.login("nonexistent.qa.user@example.com", "WrongPassword123!");
 
-        // Proveravam da korisnik NIJE ulogovan
         HomePage homePage = new HomePage(driver);
         assertFalse(homePage.isUserLoggedIn(),
-                "Korisnik je ulogovan iako su kredencijali nevažeći.");
+                "User is logged in despite invalid credentials.");
 
-        // Proveravam da je login forma i dalje vidljiva - nema pristupa nalogu
         assertTrue(loginPage.isLoginFormVisible(),
-                "Login forma nije vidljiva nakon neuspelog pokušaja prijave.");
+                "Login form is not visible after the failed login attempt.");
     }
 }

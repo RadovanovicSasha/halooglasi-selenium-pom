@@ -2,28 +2,30 @@ package tests.regression;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.LoginPage;
-import pages.SearchPage;
-import tests.BaseTest;
-import tests.LoginSteps;
+import framework.pages.LoginPage;
+import framework.pages.SearchPage;
+import tests.base.BaseTest;
+import tests.base.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * TC012 – Pretraga oglasa terminom koji sigurno ne postoji.
+ * TC012 - Search for a term guaranteed not to exist.
  *
- * Preuslov:
- * Korisnik je ulogovan u sistem.
+ * Precondition:
+ * User is logged in.
  *
- * Koraci:
- * 1. Otvoriti login stranicu, prijaviti se
- * 2. Otvoriti globalnu pretragu
- * 3. Uneti termin pretrage koji sigurno ne postoji ni u jednom oglasu
+ * Steps:
+ * 1. Open the login page, log in
+ * 2. Open global search
+ * 3. Enter a search term guaranteed not to match any ad
  *
- * Očekivano:
- * Pretraga se izvršava bez greške i ne prikazuje nijedan rezultat -
- * granični slučaj koji dopunjuje TC006 (pretraga koja vraća rezultate).
+ * Expected:
+ * The search executes without error and returns no results - the boundary
+ * counterpart to TC006 (search that returns results).
+ *
+ * Authenticates against the live test account.
  */
 @Tag("regression")
 public class SearchNoResultsTest extends BaseTest {
@@ -33,25 +35,19 @@ public class SearchNoResultsTest extends BaseTest {
     @Test
     public void TC012_search_withNonexistentTerm_returnsNoResults() {
 
-        // Otvaram login stranicu
         LoginSteps loginSteps = new LoginSteps(driver);
         LoginPage loginPage = loginSteps.openLoginPage();
 
-        // Proveravam da li je login forma učitana
-        assertTrue(loginPage.isLoginFormVisible(), "Login forma nije vidljiva.");
+        assertTrue(loginPage.isLoginFormVisible(), "Login form is not visible.");
 
-        // Vršim login sa validnim kredencijalima
         loginSteps.submitValidCredentials(loginPage);
 
-        // Otvaram stranicu sa globalnom pretragom
         SearchPage searchPage = new SearchPage(driver);
         searchPage.open();
 
-        // Pretražujem termin koji sigurno ne postoji ni u jednom oglasu
         searchPage.search(NONEXISTENT_TERM);
 
-        // Proveravam da pretraga NE vraća nijedan rezultat
         assertFalse(searchPage.hasResults(),
-                "Pretraga je vratila rezultate za termin koji ne bi trebalo da postoji.");
+                "Search returned results for a term that shouldn't exist.");
     }
 }

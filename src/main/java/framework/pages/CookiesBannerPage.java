@@ -1,21 +1,20 @@
-package pages;
+package framework.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import java.util.List;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 /**
- * Ova klasa predstavlja cookie banner koji se pojavljuje prilikom prvog
- * otvaranja sajta.
+ * Represents the cookie consent banner shown on first site visit.
  *
- * Banner može da blokira interakciju sa elementima na stranici, pa sam
- * izdvojio posebnu Page klasu koja proverava da li je banner prisutan
- * i po potrebi prihvata cookies.
+ * The banner can block interaction with other page elements, so it's
+ * modeled as its own page object that checks for its presence and accepts
+ * cookies when needed.
  */
 public class CookiesBannerPage extends BasePage {
 
-    // Dugme za prihvatanje cookies-a na sajtu
     private final By acceptBtn = By.id("onetrust-accept-btn-handler");
 
     public CookiesBannerPage(WebDriver driver) {
@@ -23,11 +22,8 @@ public class CookiesBannerPage extends BasePage {
     }
 
     /**
-     * Proveravam da li je cookie banner prisutan i ako jeste klikćem
-     * na dugme za prihvatanje.
-     *
-     * Koristim findElements umesto findElement da izbegnem exception
-     * u slučaju da banner nije prikazan.
+     * Accepts cookies if the banner is present. Uses findElements instead of
+     * findElement to avoid an exception when the banner isn't shown.
      */
     public void acceptCookiesIfPresent() {
         List<WebElement> els = driver.findElements(acceptBtn);
