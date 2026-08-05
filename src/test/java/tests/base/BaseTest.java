@@ -33,8 +33,9 @@ public class BaseTest {
     @BeforeEach
     public void setUp() {
 
-        log.info("Starting Chrome driver (CI={})", EnvConfig.isCi());
-        DriverManager.setDriver(DriverFactory.createChromeDriver());
+        String browser = EnvConfig.getBrowser();
+        log.info("Starting {} driver (CI={})", browser, EnvConfig.isCi());
+        DriverManager.setDriver(DriverFactory.createDriver(browser));
         driver = DriverManager.getDriver();
 
         driver.manage().window().maximize();
