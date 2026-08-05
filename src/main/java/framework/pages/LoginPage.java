@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class LoginPage extends BasePage {
 
-    private final String loginUrl = EnvConfig.BASE_URL + "prijava";
+    private final String loginUrl = EnvConfig.getBaseUrl() + "prijava";
     private final By emailInput =
             By.xpath("//label[contains(text(),'E-mail') or contains(text(),'korisničko ime')]/following::input[1]");
     private final By passwordInput =

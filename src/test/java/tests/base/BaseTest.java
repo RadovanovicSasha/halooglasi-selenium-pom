@@ -38,7 +38,7 @@ public class BaseTest {
         driver = DriverManager.getDriver();
 
         driver.manage().window().maximize();
-        driver.get(EnvConfig.BASE_URL);
+        driver.get(EnvConfig.getBaseUrl());
 
         // If Cloudflare/Turnstile is blocking the page, report it immediately
         // and clearly, instead of letting every test fail on an ambiguous timeout.

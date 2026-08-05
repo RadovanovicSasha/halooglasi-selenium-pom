@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class ProfilePage extends BasePage {
 
-    private final String profileUrl = EnvConfig.BASE_URL + "profil";
+    private final String profileUrl = EnvConfig.getBaseUrl() + "profil";
     // "Moj profil" heading, used as the signal the page loaded successfully.
     private final By profileHeader =
             By.cssSelector("a[data-url='/profil/moji-oglasi']");

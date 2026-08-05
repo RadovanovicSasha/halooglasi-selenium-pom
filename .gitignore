@@ -1,5 +1,5 @@
 # Local credentials - never commit
-src/test/resources/testdata-local.properties
+.env
 
 # Build output
 target/

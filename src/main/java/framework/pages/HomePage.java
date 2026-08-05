@@ -27,7 +27,7 @@ public class HomePage extends BasePage {
      * Opens the site's home page.
      */
     public void open() {
-        driver.get(EnvConfig.BASE_URL);
+        driver.get(EnvConfig.getBaseUrl());
     }
 
     /**

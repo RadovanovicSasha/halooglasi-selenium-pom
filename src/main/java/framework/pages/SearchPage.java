@@ -21,7 +21,7 @@ public class SearchPage extends BasePage {
      * Opens the home page to access the global search field from there.
      */
     public void open() {
-        driver.get(EnvConfig.BASE_URL);
+        driver.get(EnvConfig.getBaseUrl());
     }
 
     /**
