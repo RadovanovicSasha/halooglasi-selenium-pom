@@ -29,6 +29,15 @@ public class SecurityNotificationModal extends BasePage {
     }
 
     /**
+     * Brza provera (bez čekanja) da li je dugme za potvrdu trenutno u DOM-u.
+     * Koristim findElements umesto findElement da izbegnem exception kada
+     * modal nije prikazan.
+     */
+    public boolean isPresent() {
+        return !driver.findElements(confirmBtn).isEmpty();
+    }
+
+    /**
      * Ako je bezbednosno obaveštenje prisutno, zatvaram ga klikom na dugme
      * za potvrdu i čekam da modal i backdrop nestanu sa stranice.
      *

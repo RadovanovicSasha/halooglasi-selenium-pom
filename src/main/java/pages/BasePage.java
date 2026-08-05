@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.interactions.Actions;
+import support.ObstacleHandler;
 
 import java.time.Duration;
 
@@ -33,6 +34,15 @@ public class BasePage {
      *
      * Ovu metodu koristim u validacijama da proverim da li se stranica ili
      * određeni element uspešno učitao.
+     *
+     * Na prvi timeout ne vraćam odmah false - to bi običan timeout, pokvaren
+     * lokator i "stranicu je presrela Cloudflare zaštita" učinilo
+     * nerazlučivim (sva tri izgledaju identično: element se nije pojavio).
+     * Zato prvo proveravam da nije u pitanju anti-bot zaštita (u kom slučaju
+     * bacam jasnu grešku umesto tihog false), zatim uklanjam poznate
+     * prepreke i proveru ponavljam tačno jednom. Ako i tada element nije
+     * vidljiv, vraćam false kao i pre - to je normalan ishod (pokvaren
+     * lokator ili stvarno spor/odsutan element), bez izmene ponašanja.
      */
     protected boolean isVisible(By locator, int seconds) {
         try {
@@ -40,8 +50,15 @@ public class BasePage {
                     .until(ExpectedConditions.visibilityOfElementLocated(locator));
             return true;
         } catch (TimeoutException e) {
-        // Ako element nije postao vidljiv u zadatom vremenu vraćam false
-            return false;
+            ObstacleHandler.failFastIfAntiBotChallenge(driver);
+            ObstacleHandler.dismissKnownObstacles(driver);
+            try {
+                new WebDriverWait(driver, Duration.ofSeconds(seconds))
+                        .until(ExpectedConditions.visibilityOfElementLocated(locator));
+                return true;
+            } catch (TimeoutException retryTimeout) {
+                return false;
+            }
         }
     }
 
@@ -50,11 +67,28 @@ public class BasePage {
      *
      * Ovo koristim da izbegnem probleme kada se elementi još učitavaju
      * ili nisu spremni za interakciju.
+     *
+     * Ako prvi pokušaj padne na timeout-u, ne odustajem odmah - moguće je da
+     * je u pitanju poznata uklonjiva prepreka (npr. obaveštenje koje se
+     * pojavilo posle početnog dismissal-a u BaseTest). ObstacleHandler prvo
+     * proveri da nije u pitanju anti-bot zaštita (u kom slučaju ne pokušava
+     * ništa dalje), zatim ukloni poznate prepreke i ponovi klik tačno
+     * jednom. Ako i taj pokušaj padne, originalni TimeoutException probija
+     * normalno - ne razlikuje se od pokvarenog lokatora ili običnog sporog
+     * učitavanja.
      */
     protected void clickWhenClickable(By locator, int seconds) {
-        WebElement el = new WebDriverWait(driver, Duration.ofSeconds(seconds))
-                .until(ExpectedConditions.elementToBeClickable(locator));
-        el.click();
+        try {
+            WebElement el = new WebDriverWait(driver, Duration.ofSeconds(seconds))
+                    .until(ExpectedConditions.elementToBeClickable(locator));
+            el.click();
+        } catch (TimeoutException e) {
+            ObstacleHandler.retryAfterDismissingObstacles(driver, () -> {
+                WebElement el = new WebDriverWait(driver, Duration.ofSeconds(seconds))
+                        .until(ExpectedConditions.elementToBeClickable(locator));
+                el.click();
+            });
+        }
     }
 
     /**

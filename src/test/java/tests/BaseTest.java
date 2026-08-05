@@ -9,8 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import utils.DriverFactory; // za CI
-import pages.CookiesBannerPage; // za CI
-import pages.SecurityNotificationModal;
+import support.ObstacleHandler;
 
 /**
  * BaseTest je osnovna klasa za sve testove u projektu.
@@ -39,11 +38,13 @@ public class BaseTest {
         driver.manage().window().maximize();
         driver.get(FrameworkConfig.BASE_URL);
 
-        // Ako se pojavi cookies banner, zatvaram ga da ne blokira elemente (posebno u CI)
-        new CookiesBannerPage(driver).acceptCookiesIfPresent();
+        // Ako Cloudflare/Turnstile blokira stranicu, prijavljujem to odmah i
+        // jasno, umesto da svaki test kasnije padne na nejasnom timeout-u.
+        ObstacleHandler.failFastIfAntiBotChallenge(driver);
 
-        // Ako se pojavi bezbednosno obaveštenje, zatvaram ga da ne blokira elemente
-        new SecurityNotificationModal(driver).dismissIfPresent();
+        // Uklanjam poznate prepreke (cookie banner, bezbednosno obaveštenje)
+        // ako su prisutne, da ne blokiraju elemente (posebno u CI).
+        ObstacleHandler.dismissKnownObstacles(driver);
     }
 
 /**
