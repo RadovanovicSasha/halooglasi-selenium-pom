@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import framework.pages.LoginPage;
 import tests.base.BaseTest;
-import tests.base.LoginSteps;
+import tests.steps.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

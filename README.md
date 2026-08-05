@@ -70,7 +70,8 @@ src
     │   └── tests
     │       ├── base
     │       │   ├── BaseTest.java                    # Driver lifecycle via DriverManager/DriverFactory
-    │       │   ├── ScreenshotOnFailureExtension.java
+    │       │   └── ScreenshotOnFailureExtension.java
+    │       ├── steps
     │       │   └── LoginSteps.java                  # Reusable login step helper
     │       ├── testdata
     │       │   └── TestData.java                    # Search term + credentials (delegates to EnvConfig)
@@ -96,7 +97,7 @@ Common behavior is centralized rather than duplicated:
 - `ObstacleHandler` centralizes handling of known, removable UI obstacles (cookie banner, security notification modal) and explicit detection of external anti-bot challenges (Cloudflare/Turnstile). On a timeout, known obstacles are dismissed and the original wait/click is retried exactly once; a detected anti-bot challenge instead fails immediately with a distinct `AntiBotChallengeException`, so a Cloudflare block is never silently reported as an ordinary assertion/timeout failure. See [CI Scope & Known Limitations](#ci-scope--known-limitations).
 - `DriverManager` holds the active `WebDriver` per thread (`ThreadLocal`), so `BaseTest` never shares or races on a driver reference across concurrently-running tests.
 - `BaseTest` provides the shared JUnit lifecycle (`@BeforeEach`/`@AfterEach`): driver creation via `DriverFactory`/`DriverManager`, opening the configured environment's base URL, dismissing known interstitials and failing fast on an anti-bot challenge before each test, and quitting the driver after.
-- `LoginSteps` centralizes the repeated "open login page + submit valid credentials" flow used by multiple tests, without hiding assertions from the tests that use it.
+- `LoginSteps` (`tests.steps`) centralizes the repeated "open login page + submit valid credentials" flow used by multiple tests, without hiding assertions from the tests that use it. Kept in its own package, separate from `tests.base`, which stays lifecycle-only (`BaseTest`, `ScreenshotOnFailureExtension`).
 - `HeaderComponent` models a UI fragment (the "logged in" indicator) shared across multiple pages (Home, Profile), avoiding duplicated locators.
 - `ScreenshotOnFailureExtension`, registered once on `BaseTest`, automatically captures a screenshot when a test fails, delegating the actual capture to `framework.utils.ScreenshotUtils`.
 
