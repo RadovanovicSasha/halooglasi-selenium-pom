@@ -2,6 +2,7 @@ package tests.base;
 
 import framework.config.EnvConfig;
 import framework.driver.DriverFactory;
+import framework.driver.DriverManager;
 import framework.support.ObstacleHandler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,9 @@ import org.slf4j.LoggerFactory;
  *
  * Defines WebDriver initialization and the shared setup every test class
  * uses (launching the browser, opening the site, and closing the browser
- * after the test).
+ * after the test). Driver access goes through DriverManager rather than a
+ * shared static field, so tests running on different threads never
+ * interfere with each other's session.
  */
 @ExtendWith(ScreenshotOnFailureExtension.class)
 public class BaseTest {
@@ -31,7 +34,8 @@ public class BaseTest {
     public void setUp() {
 
         log.info("Starting Chrome driver (CI={})", EnvConfig.isCi());
-        driver = DriverFactory.createChromeDriver();
+        DriverManager.setDriver(DriverFactory.createChromeDriver());
+        driver = DriverManager.getDriver();
 
         driver.manage().window().maximize();
         driver.get(EnvConfig.BASE_URL);
@@ -51,9 +55,7 @@ public class BaseTest {
      */
     @AfterEach
     public void tearDown() {
-        if (driver != null) {
-            log.info("Quitting driver");
-            driver.quit();
-        }
+        log.info("Quitting driver");
+        DriverManager.quitDriver();
     }
 }
