@@ -30,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Authentication")
 @Story("Successful login")
 @Tag("regression")
+@Tag("login")
 public class SuccessfulLoginTest extends BaseTest {
 
     @Test

@@ -43,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Browsing")
 @Story("Search-select-view end-to-end flow")
 @Tag("e2e")
+@Tag("login")
 public class BrowseListingEndToEndTest extends BaseTest {
 
     @Test

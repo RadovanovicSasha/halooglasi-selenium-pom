@@ -33,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Authentication")
 @Story("Logout")
 @Tag("e2e")
+@Tag("login")
 public class LogoutTest extends BaseTest {
 
     @Test

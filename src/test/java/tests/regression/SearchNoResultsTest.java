@@ -35,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Search")
 @Story("Search with no results")
 @Tag("regression")
+@Tag("login")
 public class SearchNoResultsTest extends BaseTest {
 
     private static final String NONEXISTENT_TERM = "zzqxvbnmqwertzxxx1234567890nonexistentqaterm";

@@ -33,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Profile")
 @Story("View profile page")
 @Tag("regression")
+@Tag("login")
 public class ProfilePageTest extends BaseTest {
 
     @Test

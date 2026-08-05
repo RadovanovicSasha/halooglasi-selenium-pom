@@ -41,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Ad Details")
 @Story("View ad details")
 @Tag("regression")
+@Tag("login")
 public class AdDetailsTest extends BaseTest {
 
     @Test

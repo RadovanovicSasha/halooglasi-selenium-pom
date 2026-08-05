@@ -35,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Authentication")
 @Story("Failed login with invalid credentials")
 @Tag("regression")
+@Tag("login")
 public class FailedLoginTest extends BaseTest {
 
     @Test

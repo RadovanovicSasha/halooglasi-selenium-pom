@@ -35,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Feature("Search")
 @Story("Search returns results")
 @Tag("regression")
+@Tag("login")
 public class SearchTest extends BaseTest {
 
     @Test
