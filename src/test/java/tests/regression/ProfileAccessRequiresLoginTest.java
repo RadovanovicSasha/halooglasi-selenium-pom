@@ -1,5 +1,9 @@
 package tests.regression;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import framework.pages.ProfilePage;
@@ -23,6 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
  * Requires no credentials and never touches the login endpoint, so it's
  * safe to run automatically on every push.
  */
+@Severity(SeverityLevel.CRITICAL)
+@Feature("Authorization")
+@Story("Profile access requires login")
 @Tag("regression")
 public class ProfileAccessRequiresLoginTest extends BaseTest {
 

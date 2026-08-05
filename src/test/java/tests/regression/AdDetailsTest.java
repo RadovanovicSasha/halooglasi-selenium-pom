@@ -1,5 +1,9 @@
 package tests.regression;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import framework.pages.AdDetailsPage;
@@ -33,6 +37,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * Authenticates against the live test account.
  */
+@Severity(SeverityLevel.NORMAL)
+@Feature("Ad Details")
+@Story("View ad details")
 @Tag("regression")
 public class AdDetailsTest extends BaseTest {
 

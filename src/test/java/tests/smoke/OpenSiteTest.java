@@ -1,5 +1,9 @@
 package tests.smoke;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import framework.pages.HomePage;
@@ -16,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Expected:
  * The home page loads and the header search field is visible.
  */
+@Severity(SeverityLevel.NORMAL)
+@Feature("Home Page")
+@Story("Load home page")
 @Tag("smoke")
 public class OpenSiteTest extends BaseTest {
 

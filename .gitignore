@@ -4,6 +4,9 @@
 # Build output
 target/
 
+# Allure commandline, auto-downloaded locally by the allure-maven plugin
+.allure/
+
 # Local failure evidence - never commit
 screenshots/
 

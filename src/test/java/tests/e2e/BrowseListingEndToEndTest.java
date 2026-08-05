@@ -1,5 +1,9 @@
 package tests.e2e;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import framework.pages.AdDetailsPage;
@@ -35,6 +39,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * Authenticates against the live test account.
  */
+@Severity(SeverityLevel.CRITICAL)
+@Feature("Browsing")
+@Story("Search-select-view end-to-end flow")
 @Tag("e2e")
 public class BrowseListingEndToEndTest extends BaseTest {
 

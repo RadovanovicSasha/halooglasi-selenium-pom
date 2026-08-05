@@ -1,5 +1,9 @@
 package tests.smoke;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import framework.pages.CookiesBannerPage;
@@ -18,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
  * Expected:
  * The cookie banner disappears and no longer blocks page elements.
  */
+@Severity(SeverityLevel.NORMAL)
+@Feature("Cookie Consent")
+@Story("Accept cookie banner")
 @Tag("smoke")
 public class AcceptCookiesTest extends BaseTest {
 

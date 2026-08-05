@@ -1,5 +1,9 @@
 package tests.smoke;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import framework.pages.LoginPage;
@@ -18,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * Does not submit credentials - see the login-tagged tests for authenticated flows.
  */
+@Severity(SeverityLevel.NORMAL)
+@Feature("Authentication")
+@Story("Open login page")
 @Tag("smoke")
 public class OpenLoginPageTest extends BaseTest {
 

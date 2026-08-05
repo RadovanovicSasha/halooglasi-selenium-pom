@@ -1,5 +1,9 @@
 package tests.regression;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import framework.pages.LoginPage;
@@ -25,6 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * Authenticates against the live test account.
  */
+@Severity(SeverityLevel.NORMAL)
+@Feature("Profile")
+@Story("View profile page")
 @Tag("regression")
 public class ProfilePageTest extends BaseTest {
 

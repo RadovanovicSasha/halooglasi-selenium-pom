@@ -1,5 +1,9 @@
 package tests.regression;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import framework.pages.HomePage;
@@ -27,6 +31,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * on the real account. Still submits to the live login endpoint, though,
  * so it's excluded from routine CI along with the other login flows.
  */
+@Severity(SeverityLevel.NORMAL)
+@Feature("Authentication")
+@Story("Failed login with invalid credentials")
 @Tag("regression")
 public class FailedLoginTest extends BaseTest {
 
