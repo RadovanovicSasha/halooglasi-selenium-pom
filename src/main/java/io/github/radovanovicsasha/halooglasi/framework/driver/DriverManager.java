@@ -1,4 +1,4 @@
-package framework.driver;
+package io.github.radovanovicsasha.halooglasi.framework.driver;
 
 import org.openqa.selenium.WebDriver;
 

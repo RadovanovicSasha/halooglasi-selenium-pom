@@ -1,6 +1,6 @@
 package tests.base;
 
-import framework.driver.DriverManager;
+import io.github.radovanovicsasha.halooglasi.framework.driver.DriverManager;
 import framework.utils.ScreenshotUtils;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;

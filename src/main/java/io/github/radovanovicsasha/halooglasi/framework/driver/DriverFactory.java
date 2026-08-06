@@ -1,4 +1,4 @@
-package framework.driver;
+package io.github.radovanovicsasha.halooglasi.framework.driver;
 
 import io.github.radovanovicsasha.halooglasi.framework.config.EnvConfig;
 import io.github.bonigarcia.wdm.WebDriverManager;

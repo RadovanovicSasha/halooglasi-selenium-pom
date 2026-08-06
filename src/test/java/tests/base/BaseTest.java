@@ -1,8 +1,8 @@
 package tests.base;
 
 import io.github.radovanovicsasha.halooglasi.framework.config.EnvConfig;
-import framework.driver.DriverFactory;
-import framework.driver.DriverManager;
+import io.github.radovanovicsasha.halooglasi.framework.driver.DriverFactory;
+import io.github.radovanovicsasha.halooglasi.framework.driver.DriverManager;
 import framework.support.ObstacleHandler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
