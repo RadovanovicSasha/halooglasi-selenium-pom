@@ -1,8 +1,8 @@
-package tests.steps;
+package io.github.radovanovicsasha.halooglasi.tests.steps;
 
 import io.github.radovanovicsasha.halooglasi.framework.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
-import tests.testdata.TestData;
+import io.github.radovanovicsasha.halooglasi.testdata.TestData;
 
 /**
  * Centralizes the repeated login steps (opening the login page and

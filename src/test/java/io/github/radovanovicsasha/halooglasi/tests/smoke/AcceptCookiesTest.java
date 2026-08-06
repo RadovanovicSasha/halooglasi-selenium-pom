@@ -1,4 +1,4 @@
-package tests.smoke;
+package io.github.radovanovicsasha.halooglasi.tests.smoke;
 
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import io.github.radovanovicsasha.halooglasi.framework.pages.CookiesBannerPage;
 import io.github.radovanovicsasha.halooglasi.framework.pages.HomePage;
-import tests.base.BaseTest;
+import io.github.radovanovicsasha.halooglasi.tests.base.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 

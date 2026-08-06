@@ -1,4 +1,4 @@
-package tests.base;
+package io.github.radovanovicsasha.halooglasi.tests.base;
 
 import io.github.radovanovicsasha.halooglasi.framework.driver.DriverManager;
 import io.github.radovanovicsasha.halooglasi.framework.utils.ScreenshotUtils;

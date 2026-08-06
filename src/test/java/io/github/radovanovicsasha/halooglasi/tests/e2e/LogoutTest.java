@@ -1,4 +1,4 @@
-package tests.e2e;
+package io.github.radovanovicsasha.halooglasi.tests.e2e;
 
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import io.github.radovanovicsasha.halooglasi.framework.pages.LoginPage;
 import io.github.radovanovicsasha.halooglasi.framework.pages.ProfilePage;
-import tests.base.BaseTest;
-import tests.steps.LoginSteps;
+import io.github.radovanovicsasha.halooglasi.tests.base.BaseTest;
+import io.github.radovanovicsasha.halooglasi.tests.steps.LoginSteps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

@@ -1,4 +1,4 @@
-package tests.testdata;
+package io.github.radovanovicsasha.halooglasi.testdata;
 
 import io.github.radovanovicsasha.halooglasi.framework.config.EnvConfig;
 

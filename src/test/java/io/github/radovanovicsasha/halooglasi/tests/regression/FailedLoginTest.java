@@ -1,4 +1,4 @@
-package tests.regression;
+package io.github.radovanovicsasha.halooglasi.tests.regression;
 
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import io.github.radovanovicsasha.halooglasi.framework.pages.HomePage;
 import io.github.radovanovicsasha.halooglasi.framework.pages.LoginPage;
-import tests.base.BaseTest;
+import io.github.radovanovicsasha.halooglasi.tests.base.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
