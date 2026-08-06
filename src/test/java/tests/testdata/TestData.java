@@ -1,6 +1,6 @@
 package tests.testdata;
 
-import framework.config.EnvConfig;
+import io.github.radovanovicsasha.halooglasi.framework.config.EnvConfig;
 
 /**
  * Test-specific data: shared constants and login credentials for the live

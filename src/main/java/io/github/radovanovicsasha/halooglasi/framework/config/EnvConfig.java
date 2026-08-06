@@ -1,4 +1,4 @@
-package framework.config;
+package io.github.radovanovicsasha.halooglasi.framework.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 

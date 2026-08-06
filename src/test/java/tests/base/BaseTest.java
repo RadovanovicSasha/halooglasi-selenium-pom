@@ -1,6 +1,6 @@
 package tests.base;
 
-import framework.config.EnvConfig;
+import io.github.radovanovicsasha.halooglasi.framework.config.EnvConfig;
 import framework.driver.DriverFactory;
 import framework.driver.DriverManager;
 import framework.support.ObstacleHandler;

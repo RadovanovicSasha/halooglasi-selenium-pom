@@ -1,6 +1,6 @@
 package framework.driver;
 
-import framework.config.EnvConfig;
+import io.github.radovanovicsasha.halooglasi.framework.config.EnvConfig;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

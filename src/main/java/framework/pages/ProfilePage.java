@@ -1,6 +1,6 @@
 package framework.pages;
 
-import framework.config.EnvConfig;
+import io.github.radovanovicsasha.halooglasi.framework.config.EnvConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
