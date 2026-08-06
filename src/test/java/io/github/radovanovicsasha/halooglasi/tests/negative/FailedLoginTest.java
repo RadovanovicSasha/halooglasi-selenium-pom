@@ -1,4 +1,4 @@
-package io.github.radovanovicsasha.halooglasi.tests.regression;
+package io.github.radovanovicsasha.halooglasi.tests.negative;
 
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
