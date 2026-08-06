@@ -1,6 +1,6 @@
-package framework.pages.components;
+package io.github.radovanovicsasha.halooglasi.framework.pages.components;
 
-import framework.pages.BasePage;
+import io.github.radovanovicsasha.halooglasi.framework.pages.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

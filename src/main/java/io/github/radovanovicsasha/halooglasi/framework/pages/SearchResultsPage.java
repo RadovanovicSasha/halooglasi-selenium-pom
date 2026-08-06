@@ -1,4 +1,4 @@
-package framework.pages;
+package io.github.radovanovicsasha.halooglasi.framework.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

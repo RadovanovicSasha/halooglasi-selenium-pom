@@ -6,8 +6,8 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import framework.pages.LoginPage;
-import framework.pages.ProfilePage;
+import io.github.radovanovicsasha.halooglasi.framework.pages.LoginPage;
+import io.github.radovanovicsasha.halooglasi.framework.pages.ProfilePage;
 import tests.base.BaseTest;
 import tests.steps.LoginSteps;
 

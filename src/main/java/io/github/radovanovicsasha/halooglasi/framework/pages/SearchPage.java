@@ -1,4 +1,4 @@
-package framework.pages;
+package io.github.radovanovicsasha.halooglasi.framework.pages;
 
 import io.github.radovanovicsasha.halooglasi.framework.config.EnvConfig;
 import org.openqa.selenium.By;

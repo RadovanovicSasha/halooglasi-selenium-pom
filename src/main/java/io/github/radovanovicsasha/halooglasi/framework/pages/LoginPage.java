@@ -1,7 +1,7 @@
-package framework.pages;
+package io.github.radovanovicsasha.halooglasi.framework.pages;
 
 import io.github.radovanovicsasha.halooglasi.framework.config.EnvConfig;
-import framework.pages.components.HeaderComponent;
+import io.github.radovanovicsasha.halooglasi.framework.pages.components.HeaderComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

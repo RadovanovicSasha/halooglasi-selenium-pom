@@ -1,13 +1,13 @@
 package tests.regression;
 
-import framework.pages.HomePage;
+import io.github.radovanovicsasha.halooglasi.framework.pages.HomePage;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import framework.pages.LoginPage;
+import io.github.radovanovicsasha.halooglasi.framework.pages.LoginPage;
 import tests.base.BaseTest;
 import tests.steps.LoginSteps;
 

@@ -1,6 +1,6 @@
 package tests.steps;
 
-import framework.pages.LoginPage;
+import io.github.radovanovicsasha.halooglasi.framework.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
 import tests.testdata.TestData;
 

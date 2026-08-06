@@ -1,7 +1,7 @@
 package framework.support;
 
-import framework.pages.CookiesBannerPage;
-import framework.pages.SecurityNotificationModal;
+import io.github.radovanovicsasha.halooglasi.framework.pages.CookiesBannerPage;
+import io.github.radovanovicsasha.halooglasi.framework.pages.SecurityNotificationModal;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;

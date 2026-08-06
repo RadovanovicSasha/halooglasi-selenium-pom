@@ -1,4 +1,4 @@
-package framework.pages;
+package io.github.radovanovicsasha.halooglasi.framework.pages;
 
 import framework.support.ObstacleHandler;
 import framework.utils.WaitUtils;
