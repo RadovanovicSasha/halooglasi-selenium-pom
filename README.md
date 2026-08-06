@@ -44,41 +44,46 @@ The suite covers 12 test cases (`TC001`-`TC012`) spanning smoke checks, regressi
 src
 ├── main
 │   └── java
-│       └── framework
-│           ├── config
-│           │   ├── ConfigReader.java       # Loads config-{env}.properties for the active -Denv
-│           │   └── EnvConfig.java          # Typed config: baseUrl, browser, timeout, credentials, CI detection
-│           ├── driver
-│           │   ├── DriverManager.java      # ThreadLocal<WebDriver> - one driver per thread
-│           │   └── DriverFactory.java      # Chrome/Firefox creation via WebDriverManager
-│           ├── pages
-│           │   ├── BasePage.java           # Shared wait/click/hover helpers
-│           │   ├── HomePage.java, LoginPage.java, ProfilePage.java
-│           │   ├── SearchPage.java, SearchResultsPage.java, AdDetailsPage.java
-│           │   ├── CookiesBannerPage.java, SecurityNotificationModal.java
-│           │   └── components
-│           │       └── HeaderComponent.java
-│           ├── support
-│           │   ├── ObstacleHandler.java        # Dismisses known obstacles, detects anti-bot challenges
-│           │   └── AntiBotChallengeException.java
-│           └── utils
-│               ├── WaitUtils.java          # Generic WebDriverWait helpers (no page/support knowledge)
-│               └── ScreenshotUtils.java    # Screenshot capture
+│       └── io/github/radovanovicsasha/halooglasi
+│           └── framework
+│               ├── config
+│               │   ├── ConfigReader.java       # Loads config-{env}.properties for the active -Denv
+│               │   └── EnvConfig.java          # Typed config: baseUrl, browser, timeout, credentials, CI detection
+│               ├── driver
+│               │   ├── DriverManager.java      # ThreadLocal<WebDriver> - one driver per thread
+│               │   └── DriverFactory.java      # Chrome/Firefox creation via WebDriverManager
+│               ├── pages
+│               │   ├── BasePage.java           # Shared wait/click/hover helpers
+│               │   ├── HomePage.java, LoginPage.java, ProfilePage.java
+│               │   ├── SearchPage.java, SearchResultsPage.java, AdDetailsPage.java
+│               │   ├── CookiesBannerPage.java, SecurityNotificationModal.java
+│               │   └── components
+│               │       └── HeaderComponent.java
+│               ├── support
+│               │   ├── ObstacleHandler.java        # Dismisses known obstacles, detects anti-bot challenges
+│               │   └── AntiBotChallengeException.java
+│               └── utils
+│                   ├── WaitUtils.java          # Generic WebDriverWait helpers (no page/support knowledge)
+│                   └── ScreenshotUtils.java    # Screenshot capture
 │
 └── test
     ├── java
-    │   └── tests
-    │       ├── base
-    │       │   ├── BaseTest.java                    # Driver lifecycle via DriverManager/DriverFactory
-    │       │   └── ScreenshotOnFailureExtension.java
-    │       ├── steps
-    │       │   └── LoginSteps.java                  # Reusable login step helper
+    │   └── io/github/radovanovicsasha/halooglasi
+    │       ├── tests
+    │       │   ├── base
+    │       │   │   ├── BaseTest.java                    # Driver lifecycle via DriverManager/DriverFactory
+    │       │   │   └── ScreenshotOnFailureExtension.java
+    │       │   ├── steps
+    │       │   │   └── LoginSteps.java                  # Reusable login step helper
+    │       │   ├── smoke        (OpenSiteTest, AcceptCookiesTest, OpenLoginPageTest)
+    │       │   ├── regression   (SuccessfulLoginTest, ProfilePageTest, SearchTest, AdDetailsTest,
+    │       │   │                 ProfileAccessRequiresLoginTest, SearchNoResultsTest)
+    │       │   ├── negative     (FailedLoginTest)
+    │       │   └── e2e          (LogoutTest, BrowseListingEndToEndTest)
     │       ├── testdata
     │       │   └── TestData.java                    # Search term + credentials (delegates to EnvConfig)
-    │       ├── smoke        (OpenSiteTest, AcceptCookiesTest, OpenLoginPageTest)
-    │       ├── regression   (SuccessfulLoginTest, ProfilePageTest, SearchTest, AdDetailsTest,
-    │       │                 FailedLoginTest, ProfileAccessRequiresLoginTest, SearchNoResultsTest)
-    │       └── e2e          (LogoutTest, BrowseListingEndToEndTest)
+    │       └── suites
+    │           └── SmokeSuite.java, RegressionSuite.java, E2ESuite.java  # IDE-run @Suite groupings
     └── resources
         ├── junit-platform.properties    # Parallel execution + Allure extension autodetection
         ├── allure.properties            # Allure results directory
@@ -91,6 +96,8 @@ pom.xml
 README.md
 ```
 
+Everything below the `io.github.radovanovicsasha.halooglasi` root is referred to by its short form (`framework.pages`, `tests.regression`, etc.) throughout this document, matching how the code itself is written.
+
 Common behavior is centralized rather than duplicated:
 
 - `BasePage` provides shared wait/interaction helpers (`isVisible`, `clickWhenClickable`, `jsClick`, `hover`), delegating the actual `WebDriverWait` calls to `framework.utils.WaitUtils` and obstacle/anti-bot handling to `framework.support.ObstacleHandler`.
@@ -101,7 +108,7 @@ Common behavior is centralized rather than duplicated:
 - `HeaderComponent` models a UI fragment (the "logged in" indicator) shared across multiple pages (Home, Profile), avoiding duplicated locators.
 - `ScreenshotOnFailureExtension`, registered once on `BaseTest`, automatically captures a screenshot when a test fails, delegating the actual capture to `framework.utils.ScreenshotUtils`.
 
-The `tests.smoke` / `tests.regression` / `tests.e2e` sub-packages exist purely for readability and logical grouping. Test selection is driven entirely by JUnit 5 `@Tag` and Maven's `-Dgroups` flag (see [Maven Commands](#maven-commands)) - there are no suite classes.
+The `tests.smoke` / `tests.regression` / `tests.negative` / `tests.e2e` sub-packages exist purely for readability and logical grouping. Test selection for CI and routine local runs is driven entirely by JUnit 5 `@Tag` and Maven's `-Dgroups` flag (see [Maven Commands](#maven-commands)); the `suites` package additionally provides `SmokeSuite`/`RegressionSuite`/`E2ESuite` (`@Suite` + `@SelectClasses`) purely as an IDE-run convenience - the tag-expression mechanism remains the actual CI selection method.
 
 ---
 
@@ -136,7 +143,7 @@ Login-dependent tests require a real Halo Oglasi account. Credentials are **neve
 - `EnvConfig` reads `TEST_USERNAME`/`TEST_PASSWORD` from environment variables first - how CI provides them via GitHub Secrets - falling back to a local `.env` file at the repo root (loaded via `dotenv-java`). The same code path works unchanged locally and in CI.
 - `.env.example` is committed with placeholder values, showing the expected keys.
 - `.env` is gitignored and never pushed to the repository.
-- `tests.testdata.TestData` exposes `haloEmail`/`haloPass` as a thin pass-through to `EnvConfig`, so test classes keep a stable, simple call site.
+- `testdata.TestData` exposes `haloEmail`/`haloPass` as a thin pass-through to `EnvConfig`, so test classes keep a stable, simple call site.
 
 ### Local Setup
 
