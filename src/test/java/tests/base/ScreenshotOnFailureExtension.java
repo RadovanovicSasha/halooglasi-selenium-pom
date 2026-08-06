@@ -1,7 +1,7 @@
 package tests.base;
 
 import io.github.radovanovicsasha.halooglasi.framework.driver.DriverManager;
-import framework.utils.ScreenshotUtils;
+import io.github.radovanovicsasha.halooglasi.framework.utils.ScreenshotUtils;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.WebDriver;

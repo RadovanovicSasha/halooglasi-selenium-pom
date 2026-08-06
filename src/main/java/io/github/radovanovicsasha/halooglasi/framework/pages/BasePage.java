@@ -1,7 +1,7 @@
 package io.github.radovanovicsasha.halooglasi.framework.pages;
 
 import io.github.radovanovicsasha.halooglasi.framework.support.ObstacleHandler;
-import framework.utils.WaitUtils;
+import io.github.radovanovicsasha.halooglasi.framework.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
