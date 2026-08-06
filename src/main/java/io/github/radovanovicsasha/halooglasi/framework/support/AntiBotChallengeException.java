@@ -1,4 +1,4 @@
-package framework.support;
+package io.github.radovanovicsasha.halooglasi.framework.support;
 
 /**
  * Thrown when execution is blocked by an external anti-bot challenge (e.g.

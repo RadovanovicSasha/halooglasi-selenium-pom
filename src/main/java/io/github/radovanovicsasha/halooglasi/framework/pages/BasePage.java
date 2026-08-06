@@ -1,6 +1,6 @@
 package io.github.radovanovicsasha.halooglasi.framework.pages;
 
-import framework.support.ObstacleHandler;
+import io.github.radovanovicsasha.halooglasi.framework.support.ObstacleHandler;
 import framework.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;

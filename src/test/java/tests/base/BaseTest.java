@@ -3,7 +3,7 @@ package tests.base;
 import io.github.radovanovicsasha.halooglasi.framework.config.EnvConfig;
 import io.github.radovanovicsasha.halooglasi.framework.driver.DriverFactory;
 import io.github.radovanovicsasha.halooglasi.framework.driver.DriverManager;
-import framework.support.ObstacleHandler;
+import io.github.radovanovicsasha.halooglasi.framework.support.ObstacleHandler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;

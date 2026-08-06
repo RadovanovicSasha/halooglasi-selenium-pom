@@ -1,4 +1,4 @@
-package framework.support;
+package io.github.radovanovicsasha.halooglasi.framework.support;
 
 import io.github.radovanovicsasha.halooglasi.framework.pages.CookiesBannerPage;
 import io.github.radovanovicsasha.halooglasi.framework.pages.SecurityNotificationModal;
